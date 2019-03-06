@@ -20,7 +20,8 @@
   "homepage": "https://github.com/VeronikaHar/cinestock-node#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "eslint": "^5.15.0"
