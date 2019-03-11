@@ -71,14 +71,14 @@ app.get('/movies', function (req, res) {
 // Returns data about a single movie by title 
 app.get('/movies/:title', function (req, res) {
     res.json(movies.find(function (movie) {
-        return movie.title === req.params.title
+        return movie.title.toLowerCase() === req.params.title.toLowerCase()
     }));
 });
 
 // Returns data about a genre by title
 app.get('/movies/:title/genre', function (req, res) {
     let movie = movies.find((movie) => {
-        return movie.title === req.params.title;
+        return movie.title.toLowerCase() === req.params.title.toLowerCase();
     });
 
     if (movie) {
@@ -98,7 +98,7 @@ app.post('/users', function (req, res) {
     let newUser = req.body;
 
     if (!newUser.username) {
-        const message = 'Missing username';
+        const message = 'Username needed to register.';
         res.status(400).send(message);
     } else {
         users.push(newUser);
@@ -120,7 +120,7 @@ app.put('/users/:username/:email/:dateofbirth', function (req, res) {
 });
 
 //Allows users to add a movie to their list of favorites
-app.post('/users/:username/favorites', function (req, res) {
+app.post('/users/:username/:favorites', function (req, res) {
     let newFavorite = req.body;
 
     if (!newFavorite.title) {
@@ -136,13 +136,25 @@ app.post('/users/:username/favorites', function (req, res) {
 });
 
 //Allows users to remove a movie from their list of favorites
-app.delete('/users/:username/favorites', function (req, res) {
-    res.send('One favorite movie deleted')
+app.delete('/users/:username/:favorites', function (req, res) {
+    res.send('One favorite movie deleted');
 });
 
 //Allows existing users to deregister
 app.delete('/users/:username', function (req, res) {
-    res.send('User profile has been deleted')
+    let user = users.find(function (user) {
+        return user.username.toLowerCase() === req.params.username.toLowerCase()
+    });
+
+    if (user) {
+        let newUsers = users.filter(function (obj) {
+            return obj.username.toLowerCase() !== req.params.username.toLowerCase()
+        });
+        users = newUsers;
+        res.status(201).send(req.params.username + ' user profile has been deleted.')
+    } else {
+        res.status(404).send('Profile with username ' + req.params.username + ' was not found.');
+    }
 });
 
 // default response when request hits the root folder
