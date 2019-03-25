@@ -1,158 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Documentation - CineStock</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>CineStock</h1>
     <h2>Introduction</h2>
     <p>
-        CineStock is a movie web application that provides users with access to information about different movies,
-        directors, and genres.
-        Users are able to sign up, update their personal information, and create a list of their favorite movies.
-        <br>
-        For that purpose a REST API was created that interacts with a movie database.
+      CineStock is a movie web application that provides users with access to
+      information about different movies, directors, and genres. Users are able
+      to sign up, update their personal information, and create a list of their
+      favorite movies.
+      <br />
+      For that purpose a REST API was created that interacts with a movie
+      database.
     </p>
     <table>
-        <thead>
-            <tr>
-                <th>REQUEST</th>
-                <th>URL</th>
-                <th>HTTP METHOD</th>
-                <th>REQUEST BODY DATA FORMAT</th>
-                <th>RESPONSE BODY DATA FORMAT</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Get a list of all movies</td>
-                <td>/movies</td>
-                <td>GET</td>
-                <td>None</td>
-                <td>JSON object holding data about all movies.</td>
-            </tr>
-            <tr>
-                <td>Get a single movie by title</td>
-                <td>
-                    /movies/:title<br>
-                    <br>
-                    Example:
-                    <p class='example'>/movies/Pulp%20Fiction</p>
-                </td>
-                <td>GET</td>
-                <td>None</td>
-                <td>
-                    JSON object holding data about a single movie containing a title, description, genre, director and
-                    image URL.
-                    <p class='example'>
-                        {<br>
-                        title: 'Pulp Fiction', <br>
-                        description: 'Pulp Fiction is a 1994 American crime film',<br>
-                        genre: 'Drama/Crime',<br>
-                        director: 'Quentin Tarantino',<br>
-                        imageURL: '#'<br>
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>Get a genre by movie title</td>
-                <td>/movies/:title/genre</td>
-                <td>GET</td>
-                <td>None</td>
-                <td>A text message with the genre of requested movie, like:
-                    <p class='example'>
-                        The genre of Pulp Fiction is Drama/Crime
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>Get data about a director by name</td>
-                <td>/directors/:name</td>
-                <td>GET</td>
-                <td>None</td>
-                <td>JSON object holding data about a director, including his bio, birth year, death year.</td>
-            </tr>
-            <tr>
-                <td>Allow new users to register</td>
-                <td>/users</td>
-                <td>POST</td>
-                <td>A JSON object holding data about the user to add, structured like:
-                    <p class='example'>
-                        {<br>
-                        username: 'MikeStar', <br>
-                        email: 'user@mail.com',<br>
-                        password: '123movie',<br>
-                        dateOfBirth: '01/01/1970',<br>
-                        favorites: []<br>
-                        }
-                    </p>
-                </td>
-                <td>A JSON object holding data about the user that was added.</td>
-            </tr>
-            <tr>
-                <td>Update user log in information</td>
-                <td>/users/:username/:password</td>
-                <td>PUT</td>
-                <td>None</td>
-                <td>A text message indicating whether the user's username/password was successfully updated</td>
-            </tr>
-            <tr>
-                <td>Update user personal information</td>
-                <td>/users/:username/:email/:dateofbirth</td>
-                <td>PUT</td>
-                <td>None</td>
-                <td>A text message indicating whether the user's personal data was successfully updated</td>
-            </tr>
-            <tr>
-                <td>Add a movie to the user's list of favorites</td>
-                <td>/users/:username/:favorites</td>
-                <td>POST</td>
-                <td>A JSON object holding data about the user to add, structured like:
-                    <p class='example'>
-                        {<br>
-                        title: 'Pulp Fiction', <br>
-                        description: 'Pulp Fiction is a 1994 American crime film',<br>
-                        genre: 'Drama/Crime',<br>
-                        director: 'Quentin Tarantino',<br>
-                        imageURL: '#'<br>
-                        }
-                    </p>
-                </td>
-                <td>A JSON object holding data about the user that was added, including a unique ID:
-                    <p class='example'>
-                        {<br>
-                        id: '1', <br>
-                        title: 'Pulp Fiction', <br>
-                        description: 'Pulp Fiction is a 1994 American crime film',<br>
-                        genre: 'Drama/Crime',<br>
-                        director: 'Quentin Tarantino',<br>
-                        imageURL: '#'<br>
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>Remove a movie from user's favorites</td>
-                <td>/users/:username/:favorites</td>
-                <td>DELETE</td>
-                <td>None</td>
-                <td>A text message indicating whether the movie was successfully removed from user's favorites.</td>
-            </tr>
-            <tr>
-                <td>Deregister existing user</td>
-                <td>/users/:username</td>
-                <td>DELETE</td>
-                <td>None</td>
-                <td>A text message indicating whether the user was successfully deregistered.</td>
-            </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>REQUEST</th>
+          <th>URL</th>
+          <th>HTTP METHOD</th>
+          <th>REQUEST BODY DATA FORMAT</th>
+          <th>RESPONSE BODY DATA FORMAT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get a list of all movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>JSON object holding data about all movies.</td>
+        </tr>
+        <tr>
+          <td>Get a single movie by title</td>
+          <td>
+            /movies/:Title<br />
+            <br />
+            Example:
+            <p class="example">/movies/Silence%20of%20the%20Lambs</p>
+          </td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            JSON object holding data about a single movie containing a title,
+            description, genre, director and image URL.
+            <p class="example">
+              {<br />
+              "Genre": {<br />
+              "Name": "Thriller",<br />
+              "Description": "Thriller film, also known as suspense film or
+              suspense thriller, is a broad film genre that involves excitement
+              and suspense in the audience."<br />
+              },<br />
+              "Director": {<br />
+              "Name": "Jonathan Demme",<br />
+              "Bio": "Robert Jonathan Demme was an American director, producer,
+              and screenwriter.",<br />
+              "Birth": "1944",<br />
+              "Death": "2017"<br />
+              },<br />
+              "_id": "5c885bc134ec1a6dfb5f9ef1",<br />
+              <br />
+              "Title": "Silence of the Lambs",<br />
+              "ReleaseYear": "1991",<br />
+              "Description": "In the film, Clarice Starling, a young FBI
+              trainee, seeks the advice of the imprisoned Dr. Hannibal Lecter, a
+              brilliant psychiatrist and cannibalistic serial killer to
+              apprehend another serial killer, known only as 'Buffalo Bill', who
+              skins his female victims' corpses.",<br />
+              "ImagePath": "silenceofthelambs.png",<br />
+              "Featured": false<br />
+              }<br />
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Get a genre by movie title</td>
+          <td>
+            /movies/:Title/genre
+            <br />
+            Example:
+            <p class="example">/movies/Pulp%20Fiction/genre</p>
+          </td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            A text message with the genre of requested movie, like:
+            <p class="example">
+              The genre of Pulp Fiction is Crime.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Get data about a director by name</td>
+          <td>
+            /directors/:Name<br />
+            Example:
+            <p class="example">directors/Quentin%20Tarantino</p>
+          </td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            JSON object holding data about a director, including his bio, birth
+            year, death year(if available).
+            <p class="example">
+              {<br />
+              "Name": "Quentin Tarantino",<br />
+              "Bio": "Quentin Jerome Tarantino is an American filmmaker, author,
+              and actor. His films are characterized by nonlinear storylines;
+              satirical subject matter; an aestheticization of violence;
+              extended scenes of dialogue; ensemble casts consisting of
+              established and lesser-known performers; references to popular
+              culture and a wide variety of other films; soundtracks primarily
+              containing songs and score pieces from the 1960s to the 1980s; and
+              features of neo-noir film.",<br />
+              "Birth": "1963",<br />
+              },<br />
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Allow new users to register</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>
+            A JSON object holding data about the user to add, structured like:
+            <p class="example">
+              {<br />
+              "Username": "Lilo", <br />
+              "Password": "123movie",<br />
+              "Email": "user@mail.com",<br />
+              "Birthday": "01/01/1970",<br />
+              "FavoriteMovies": []<br />
+              }
+            </p>
+          </td>
+          <td>
+            A JSON object with automatically assigned unique ID holding data
+            about the user that was added.
+            <p class="example">
+              {<br />
+              "FavoriteMovies": []<br />
+              "_id": "5c983f766583530770fe0140",<br />
+              "Username": "Lilo", <br />
+              "Password": "123movie",<br />
+              "Email": "user@mail.com",<br />
+              "Birthday": "1970-01-01T06:00:00.000Z",<br />
+              "__v": 0<br />
+              }
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Update user log in information</td>
+          <td>/users/:Username</td>
+          <td>PUT</td>
+          <td>
+            A JSON object holding updated data about the user to add, structured
+            like the user object (Note!!! All the fields are obligatory!):
+            <p class="example">
+              {<br />
+              "Username": "Lilo",<br />
+              "Password": "NEWPASS",<br />
+              "Email": "NEWEMAIL@hotmail.com",<br />
+              "Birthday": "01/01/1970",<br />
+              "FavoriteMovies": []<br />
+              }
+            </p>
+          </td>
+          <td>
+            A JSON object with a confirmation of how many user objects were
+            updated (! If no matching username was found, the first two fields
+            will equal 0.)
+            <p class="example">
+              {<br />
+              "n": 1,<br />
+              "nModified": 1,<br />
+              "ok": 1<br />
+              }
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Add a movie to the user's list of favorites</td>
+          <td>
+            /users/:Username/favorites/:MovieID
+            <p class="example">
+              /users/Lilo/FavoriteMovies/5c885bc134ec1a6dfb5f9ef1
+            </p>
+          </td>
+          <td>POST</td>
+          <td>
+            None
+          </td>
+          <td>
+            A JSON object holding data about the user whose favorite movie list
+            was updated, including newly added to favorites movie:
+            <p class="example">
+              {<br />
+              "FavoriteMovies": [ "5c885bc134ec1a6dfb5f9ef1" ], <br />
+              "_id": "5c9844a16583530770fe0141",<br />
+              "Username": "Lilo",<br />
+              "Password": "NEWPASS",<br />
+              "Email": "NEWEMAIL@mail.com",<br />
+              "Birthday": "1970-01-01T06:00:00.000Z"<br />
+              }
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Remove a movie from user's favorites</td>
+          <td>/users/:Username/favorites/:MovieID</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>
+            A JSON object holding data about the user whose favorite movie list
+            was updated, displaying the list of favorites without the removed
+            movie.
+          </td>
+        </tr>
+        <tr>
+          <td>Deregister existing user</td>
+          <td>/users/:Username</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>
+            A text message indicating whether the user was successfully
+            deregistered.
+            <p class="example">
+              Lilo's user profile was successfully deleted from CineStock.
+            </p>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</body>
-
+  </body>
 </html>
