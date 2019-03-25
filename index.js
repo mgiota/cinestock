@@ -2,11 +2,15 @@ const express = require('express'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
-    Models = require('./models.js');
+    Models = require('./models.js'),
+    passport = require('passport');
+require('./passport');
 
 const app = express(),
     Movies = Models.Movie,
     Users = Models.User;
+
+var auth = require('./auth')(app);
 
 app.use(bodyParser.json());
 
@@ -14,12 +18,14 @@ app.use(bodyParser.json());
 app.use(morgan('common'));
 
 // allows Mongoose to connect to the database thus integrating it with the REST API
-mongoose.connect('mongodb://localhost:27017/cinestockDB', {
+mongoose.connect('mongodb://localhost:27017/[cinestockDB]', {
     useNewUrlParser: true
 });
 
 //Returns a JSON object containing data about all movies
-app.get('/movies', function (req, res) {
+app.get('/movies', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Movies.find()
         .then(function (movies) {
             res.status(201).json(movies)
@@ -31,7 +37,9 @@ app.get('/movies', function (req, res) {
 });
 
 // Returns data about a single movie by title 
-app.get('/movies/:Title', function (req, res) {
+app.get('/movies/:Title', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Movies.findOne({
             Title: req.params.Title
         })
@@ -45,13 +53,15 @@ app.get('/movies/:Title', function (req, res) {
 });
 
 // Returns data about a genre by title
-app.get('/movies/:Title/Genre', function (req, res) {
+app.get('/movies/:Title/genre', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Movies.findOne({
             Title: req.params.Title
         })
         .then(function (movie) {
             if (movie) {
-                res.status(201).send('The genre of ' + movie.Title + ' is ' + movie.Genre);
+                res.status(201).send('The genre of ' + movie.Title + ' is ' + movie.Genre.Name + '.');
             } else {
                 res.status(404).send('Movie with the title ' + req.params.Title + ' was not found.');
             }
@@ -63,12 +73,14 @@ app.get('/movies/:Title/Genre', function (req, res) {
 });
 
 //Returns data about a director (bio, birth year, death year) by name
-app.get('/directors/:Name', function (req, res) {
+app.get('/directors/:Name', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Movies.findOne({
             "Director.Name": req.params.Name
         })
-        .then(function (director) {
-            res.json(director)
+        .then(function (movie) {
+            res.json(movie.director)
         })
         .catch(function (err) {
             console.error(err);
@@ -83,7 +95,7 @@ app.post('/users', function (req, res) {
         })
         .then(function (user) {
             if (user) {
-                return res.status(400).send(req.body.Username + "already exists");
+                return res.status(400).send("This username already exists.");
             } else {
                 Users
                     .create({
@@ -119,7 +131,9 @@ app.get('/users', function (req, res) {
 });
 
 //Allows to update user info
-app.put('/users/:Username', function (req, res) {
+app.put('/users/:Username', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Users.update({
             Username: req.params.Username
         }, {
@@ -143,7 +157,9 @@ app.put('/users/:Username', function (req, res) {
 });
 
 //Allows users to add a movie to their list of favorites
-app.post('/users/:Username/FavoriteMovies/:MovieID', function (req, res) {
+app.post('/users/:Username/favorites/:MovieID', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Users.findOneAndUpdate({
             Username: req.params.Username
         }, {
@@ -164,8 +180,10 @@ app.post('/users/:Username/FavoriteMovies/:MovieID', function (req, res) {
 });
 
 //Allows users to remove a movie from their list of favorites
-app.delete('/users/:Username/FavoriteMovies/:MovieID', function (req, res) {
-    Users.findOneAndRemove({
+app.delete('/users/:Username/favorites/:MovieID', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
+    Users.findOneAndUpdate({
             Username: req.params.Username
         }, {
             $pull: {
@@ -185,15 +203,17 @@ app.delete('/users/:Username/FavoriteMovies/:MovieID', function (req, res) {
 });
 
 //Allows existing users to deregister by username
-app.delete('/users/:Username', function (req, res) {
+app.delete('/users/:Username', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
     Users.findOneAndRemove({
             Username: req.params.Username
         })
         .then(function (user) {
             if (!user) {
-                res.status(400).send(req.params.Username + " was not found");
+                res.status(400).send(req.params.Username + "\'s user profile was not found");
             } else {
-                res.status(200).send(req.params.Username + " was deleted.");
+                res.status(200).send(req.params.Username + "\'s user profile was successfully deleted from CineStock.");
             }
         })
         .catch(function (err) {
