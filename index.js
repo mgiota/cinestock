@@ -29,7 +29,7 @@ app.use(cors());
     useNewUrlParser: true
 }); */
 
-mongoose.connect("mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/cinestoskDB?retryWrites=true", {
+mongoose.connect("mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/cinestockDB?retryWrites=true", {
     useNewUrlParser: true
 });
 
