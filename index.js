@@ -12,9 +12,9 @@ const app = express(),
     Movies = Models.Movie,
     Users = Models.User;
 
-var auth = require("./auth")(app);
-
 app.use(bodyParser.json());
+
+var auth = require("./auth")(app);
 
 //Server-side validation for the app
 app.use(validator());
@@ -29,7 +29,7 @@ app.use(cors());
     useNewUrlParser: true
 }); */
 
-mongoose.connect("mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/CineStoskDB?retryWrites=true", {
+mongoose.connect("mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/cinestoskDB?retryWrites=true", {
     useNewUrlParser: true
 });
 
