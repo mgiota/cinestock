@@ -24,14 +24,26 @@ app.use(morgan("common"));
 
 app.use(cors());
 
+/* var allowedOrigins = ['http://localhost:1234'];
+
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      var message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+})); */
+
 // allows Mongoose to connect to the database thus integrating it with the REST API
 /* mongoose.connect("mongodb://localhost:27017/[cinestockDB]", {
     useNewUrlParser: true
 }); */
 
 mongoose.connect(
-  "mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/cinestockDB?retryWrites=true",
-  {
+  "mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/cinestockDB?retryWrites=true", {
     useNewUrlParser: true
   }
 );
@@ -39,15 +51,12 @@ mongoose.connect(
 //Returns a JSON object containing data about all movies
 app.get(
   "/movies",
-  passport.authenticate("jwt", {
-    session: false
-  }),
-  function(req, res) {
+  function (req, res) {
     Movies.find()
-      .then(function(movies) {
+      .then(function (movies) {
         res.status(201).json(movies);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
         res.status(500).send("Error: " + err);
       });
@@ -60,14 +69,14 @@ app.get(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
+  function (req, res) {
     Movies.findOne({
-      Title: req.params.Title
-    })
-      .then(function(movie) {
+        Title: req.params.Title
+      })
+      .then(function (movie) {
         res.json(movie);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
         res.status(500).send("Error: " + err);
       });
@@ -80,11 +89,11 @@ app.get(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
+  function (req, res) {
     Movies.findOne({
-      Title: req.params.Title
-    })
-      .then(function(movie) {
+        Title: req.params.Title
+      })
+      .then(function (movie) {
         if (movie) {
           res
             .status(201)
@@ -99,7 +108,7 @@ app.get(
             );
         }
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
         res.status(500).send("Error: " + err);
       });
@@ -112,14 +121,14 @@ app.get(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
+  function (req, res) {
     Movies.findOne({
-      "Director.Name": req.params.Name
-    })
-      .then(function(movie) {
+        "Director.Name": req.params.Name
+      })
+      .then(function (movie) {
         res.json(movie.director);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
         res.status(500).send("Error: " + err);
       });
@@ -127,7 +136,7 @@ app.get(
 );
 
 //Allows new users to register
-app.post("/users", function(req, res) {
+app.post("/users", function (req, res) {
   req.checkBody("Username", "Username is required.").notEmpty();
   req
     .checkBody(
@@ -150,40 +159,40 @@ app.post("/users", function(req, res) {
 
   var hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({
-    Username: req.body.Username
-  })
-    .then(function(user) {
+      Username: req.body.Username
+    })
+    .then(function (user) {
       if (user) {
         return res.status(400).send("This username already exists.");
       } else {
         Users.create({
-          Username: req.body.Username,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        })
-          .then(function(user) {
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then(function (user) {
             res.status(201).json(user);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.error(error);
             res.status(500).send("Error: " + error);
           });
       }
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error(error);
       res.status(500).send("Error: " + error);
     });
 });
 
 //list of all users for test needs
-app.get("/users", function(req, res) {
+app.get("/users", function (req, res) {
   Users.find()
-    .then(function(users) {
+    .then(function (users) {
       res.status(201).json(users);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
@@ -195,7 +204,7 @@ app.put(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
+  function (req, res) {
     req.checkBody("Username", "Username is required.").notEmpty();
     req
       .checkBody(
@@ -217,22 +226,19 @@ app.put(
     }
 
     var hashedPassword = Users.hashPassword(req.body.Password);
-    Users.update(
-      {
+    Users.update({
         Username: req.params.Username
-      },
-      {
+      }, {
         $set: {
           Username: req.body.Username,
           Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday
         }
-      },
-      {
+      }, {
         new: true
       }, // This line makes sure that the updated document is returned
-      function(err, updatedUser) {
+      function (err, updatedUser) {
         if (err) {
           console.error(err);
           res.status(500).send("Error: " + err);
@@ -250,20 +256,17 @@ app.post(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
-    Users.findOneAndUpdate(
-      {
+  function (req, res) {
+    Users.findOneAndUpdate({
         Username: req.params.Username
-      },
-      {
+      }, {
         $push: {
           FavoriteMovies: req.params.MovieID
         }
-      },
-      {
+      }, {
         new: true
       }, // This line makes sure that the updated document is returned
-      function(err, updatedUser) {
+      function (err, updatedUser) {
         if (err) {
           console.error(err);
           res.status(500).send("Error: " + err);
@@ -281,20 +284,17 @@ app.delete(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
-    Users.findOneAndUpdate(
-      {
+  function (req, res) {
+    Users.findOneAndUpdate({
         Username: req.params.Username
-      },
-      {
+      }, {
         $pull: {
           FavoriteMovies: req.params.MovieID
         }
-      },
-      {
+      }, {
         new: true
       }, // This line makes sure that the updated document is returned
-      function(err, updatedUser) {
+      function (err, updatedUser) {
         if (err) {
           console.error(err);
           res.status(500).send("Error: " + err);
@@ -312,11 +312,11 @@ app.delete(
   passport.authenticate("jwt", {
     session: false
   }),
-  function(req, res) {
+  function (req, res) {
     Users.findOneAndRemove({
-      Username: req.params.Username
-    })
-      .then(function(user) {
+        Username: req.params.Username
+      })
+      .then(function (user) {
         if (!user) {
           res
             .status(400)
@@ -326,11 +326,11 @@ app.delete(
             .status(200)
             .send(
               req.params.Username +
-                "'s user profile was successfully deleted from CineStock."
+              "'s user profile was successfully deleted from CineStock."
             );
         }
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
         res.status(500).send("Error: " + err);
       });
@@ -338,19 +338,19 @@ app.delete(
 );
 
 // default response when request hits the root folder
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.send("Welcome to the world of CineStock!");
 });
 
 //access requested file from "public" folder
 app.use(express.static("public"));
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("Oops! Something went wrong... please retry!");
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function() {
+app.listen(port, "0.0.0.0", function () {
   console.log("Listening on Port 3000");
 });
