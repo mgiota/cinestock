@@ -27463,8 +27463,6 @@ exports.MovieView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _mainView = require("../main-view/main-view");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -27501,11 +27499,6 @@ function (_React$Component) {
   }
 
   _createClass(MovieView, [{
-    key: "onClick",
-    value: function onClick() {//I have no Idea how to write the function so that it would render the imported MainView on click...
-      //render() { <MainView />};
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -27543,13 +27536,10 @@ function (_React$Component) {
         className: "value"
       }, movie.Director.Name)), _react.default.createElement("button", {
         onClick: function onClick() {
-          return (
-            /*tried to use goBack() here in various combinations but it didn't work*/
-            _onClick()
-          );
+          return _onClick();
         },
         className: "back-button"
-      }, "Back to the list"));
+      }, "Go back"));
     }
   }]);
 
@@ -27557,7 +27547,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieView = MovieView;
-},{"react":"../../node_modules/react/index.js","../main-view/main-view":"components/main-view/main-view.jsx"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27633,6 +27623,13 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "handleBackBtnClick",
+    value: function handleBackBtnClick() {
+      this.setState({
+        selectedMovie: null
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
@@ -27647,7 +27644,10 @@ function (_React$Component) {
       return _react.default.createElement("div", {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie
+        movie: selectedMovie,
+        onClick: function onClick() {
+          return _this3.handleBackBtnClick();
+        }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
@@ -27820,7 +27820,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57195" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54735" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

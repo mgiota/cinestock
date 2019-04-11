@@ -1,16 +1,9 @@
 import React from "react";
 
-import { MainView } from "../main-view/main-view";
-
 export class MovieView extends React.Component {
   constructor() {
     super();
     this.state = {};
-  }
-
-  onClick() {
-    //I have no Idea how to write the function so that it would render the imported MainView on click...
-    //render() { <MainView />};
   }
 
   render() {
@@ -37,13 +30,8 @@ export class MovieView extends React.Component {
           <div className="label">Director</div>
           <div className="value">{movie.Director.Name}</div>
         </div>
-        <button
-          onClick={() =>
-            /*tried to use goBack() here in various combinations but it didn't work*/ onClick()
-          }
-          className="back-button"
-        >
-          Back to the list
+        <button onClick={() => onClick()} className="back-button">
+          Go back
         </button>
       </div>
     );
