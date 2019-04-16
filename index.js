@@ -138,12 +138,7 @@ app.get(
 //Allows new users to register
 app.post("/users", function (req, res) {
   req.checkBody("Username", "Username is required.").notEmpty();
-  req
-    .checkBody(
-      "Username",
-      "Username contains non alphanumeric characters - not allowed."
-    )
-    .isAlphanumeric();
+  req.checkBody("Username", "Username contains non alphanumeric characters - not allowed.").isAlphanumeric();
   req.checkBody("Password", "Password is required").notEmpty();
   req.checkBody("Email", "Email is required.").notEmpty();
   req.checkBody("Email", "Email does not appear to be valid.").isEmail();
@@ -183,18 +178,6 @@ app.post("/users", function (req, res) {
     .catch(function (error) {
       console.error(error);
       res.status(500).send("Error: " + error);
-    });
-});
-
-//list of all users for test needs
-app.get("/users", function (req, res) {
-  Users.find()
-    .then(function (users) {
-      res.status(201).json(users);
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send("Error: " + err);
     });
 });
 
