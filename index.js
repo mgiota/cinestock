@@ -22,20 +22,19 @@ app.use(validator());
 // Logs every request info to terminal
 app.use(morgan("common"));
 
-app.use(cors());
-
-/* var allowedOrigins = ['http://localhost:1234'];
+//use CORS to restrict allowed origins
+var allowedOrigins = ['http://localhost:1234'];
 
 app.use(cors({
-  origin: function(origin, callback){
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
       var message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
+      return callback(new Error(message), false);
     }
     return callback(null, true);
   }
-})); */
+}));
 
 // allows Mongoose to connect to the database thus integrating it with the REST API
 /* mongoose.connect("mongodb://localhost:27017/[cinestockDB]", {
