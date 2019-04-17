@@ -23,7 +23,9 @@ app.use(validator());
 app.use(morgan("common"));
 
 //use CORS to restrict allowed origins
-var allowedOrigins = ['http://localhost:1234'];
+app.use(cors());
+
+/*var allowedOrigins = ['http://localhost:1234'];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -34,7 +36,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));
+})); */
 
 // allows Mongoose to connect to the database thus integrating it with the REST API
 /* mongoose.connect("mongodb://localhost:27017/[cinestockDB]", {
@@ -133,6 +135,18 @@ app.get(
       });
   }
 );
+
+//list of all users for test needs
+app.get("/users", function (req, res) {
+  Users.find()
+    .then(function (users) {
+      res.status(201).json(users);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //Allows new users to register
 app.post("/users", function (req, res) {
