@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 // Axios is a package to send client requests; it hooks frontend code up with API
 import axios from "axios";
@@ -28,43 +30,50 @@ export function RegistrationView(props) {
   };
 
   return (
-    <form>
-      <label>
-        Username:
-        <input
+    <Form>
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username: </Form.Label>
+        <Form.Control
           type="text"
           value={username}
           onChange={e => setUsername(e.target.value)}
+          placeholder="Pick a username"
         />
-      </label>
-      <label>
-        Password:
-        <input
+      </Form.Group>
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password: </Form.Label>
+        <Form.Control
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          placeholder="Pick a password"
         />
-      </label>
-      <label>
-        Email:
-        <input
-          type="text"
+      </Form.Group>
+      <Form.Group controlId="formEmail">
+        <Form.Label>Email: </Form.Label>
+        <Form.Control
+          type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          placeholder="Please provide your email"
         />
-      </label>
-      <label>
-        Birthday:
-        <input
+      </Form.Group>
+      <Form.Group controlId="formBirthday">
+        <Form.Label>Birthday: </Form.Label>
+        <Form.Control
           type="date"
           value={birthday}
           onChange={e => setBirthday(e.target.value)}
+          placeholder="Please provide your birthday in format mm/dd/yyyy"
         />
-      </label>
-      <button type="button" onClick={handleSubmit}>
+      </Form.Group>
+      <Button variant="primary" type="submit" onClick={handleSubmit}>
         Submit
-      </button>
-    </form>
+      </Button>
+      <Form.Text className="text-muted">
+        We will never share your personal information with anyone else.
+      </Form.Text>
+    </Form>
   );
 }
 
