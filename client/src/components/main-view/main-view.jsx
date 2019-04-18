@@ -3,6 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 import { LoginView } from "../login-view/login-view";
+import { RegistrationView } from "../registration-view/registration-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
@@ -50,7 +51,25 @@ export class MainView extends React.Component {
   render() {
     const { movies, selectedMovie, user } = this.state;
 
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    if (!user)
+      return (
+        <div className="login-page">
+          <div className="existing-user">
+            <div className="label">Please log into your account:</div>
+            <div className="value">
+              <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+            </div>
+          </div>
+          <div className="new-user">
+            <div className="label">
+              New to Cinestock? Please register to expolre our world of cinema.
+            </div>
+            <div className="value">
+              <RegistrationView onLoggedIn={user => this.onLoggedIn(user)} />
+            </div>
+          </div>
+        </div>
+      );
 
     // Before the movies have been loaded
     if (!movies) return <div className="main-view" />;
