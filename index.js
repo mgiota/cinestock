@@ -14,6 +14,8 @@ const app = express(),
 
 app.use(bodyParser.json());
 
+var auth = require("./auth")(app);
+
 //Server-side validation for the app
 app.use(validator());
 
@@ -40,8 +42,6 @@ app.use(cors({
 /* mongoose.connect("mongodb://localhost:27017/[cinestockDB]", {
     useNewUrlParser: true
 }); */
-
-var auth = require("./auth")(app);
 
 mongoose.connect(
   "mongodb+srv://CineStockAdmin:MYc1n3st0ck@cinestoskdb-ayg9k.mongodb.net/cinestockDB?retryWrites=true", {
