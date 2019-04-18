@@ -28346,17 +28346,13 @@ function LoginView(props) {
     console.log(username, password);
 
     _axios.default.post("https://cinestock.herokuapp.com/login", {
-      username: username,
-      password: password
-    }).then(function (response) {
-      props.onLoggedIn(user);
+      Username: username,
+      Password: password
+    }).then(function () {
+      props.onLoggedIn(username);
     }).catch(function (error) {
       console.log(error);
     });
-    /* Send a request to the server for authentication */
-
-    /* then call props.onLoggedIn(user) */
-
   };
 
   return _react.default.createElement("form", null, _react.default.createElement("label", null, "Username:", _react.default.createElement("input", {
@@ -28378,6 +28374,104 @@ function LoginView(props) {
 }
 
 LoginView.propTypes = {
+  movie: _propTypes.default.shape({
+    title: _propTypes.default.string
+  }).isRequired,
+  onClick: _propTypes.default.func.isRequired
+};
+},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","axios":"../../node_modules/axios/index.js"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RegistrationView = RegistrationView;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function RegistrationView(props) {
+  var _useState = (0, _react.useState)(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      username = _useState2[0],
+      setUsername = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      password = _useState4[0],
+      setPassword = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(""),
+      _useState6 = _slicedToArray(_useState5, 2),
+      email = _useState6[0],
+      setEmail = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(""),
+      _useState8 = _slicedToArray(_useState7, 2),
+      birthday = _useState8[0],
+      setBirthday = _useState8[1];
+
+  var handleSubmit = function handleSubmit() {
+    console.log(username, password, email, birthday);
+
+    _axios.default.post("https://cinestock.herokuapp.com/users", {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    }).then(function () {
+      props.onLoggedIn(username);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  };
+
+  return _react.default.createElement("form", null, _react.default.createElement("label", null, "Username:", _react.default.createElement("input", {
+    type: "text",
+    value: username,
+    onChange: function onChange(e) {
+      return setUsername(e.target.value);
+    }
+  })), _react.default.createElement("label", null, "Password:", _react.default.createElement("input", {
+    type: "password",
+    value: password,
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  })), _react.default.createElement("label", null, "Email:", _react.default.createElement("input", {
+    type: "text",
+    value: email,
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), _react.default.createElement("label", null, "Birthday:", _react.default.createElement("input", {
+    type: "date",
+    value: birthday,
+    onChange: function onChange(e) {
+      return setBirthday(e.target.value);
+    }
+  })), _react.default.createElement("button", {
+    type: "button",
+    onClick: handleSubmit
+  }, "Submit"));
+}
+
+RegistrationView.propTypes = {
   movie: _propTypes.default.shape({
     title: _propTypes.default.string
   }).isRequired,
@@ -29288,6 +29382,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _loginView = require("../login-view/login-view");
 
+var _registrationView = require("../registration-view/registration-view");
+
 var _movieCard = require("../movie-card/movie-card");
 
 var _movieView = require("../movie-view/movie-view");
@@ -29374,11 +29470,29 @@ function (_React$Component) {
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie,
           user = _this$state.user;
-      if (!user) return _react.default.createElement(_loginView.LoginView, {
+      if (!user) return _react.default.createElement("div", {
+        className: "login-page"
+      }, _react.default.createElement("div", {
+        className: "existing-user"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "Please log into your account:"), _react.default.createElement("div", {
+        className: "value"
+      }, _react.default.createElement(_loginView.LoginView, {
         onLoggedIn: function onLoggedIn(user) {
           return _this3.onLoggedIn(user);
         }
-      }); // Before the movies have been loaded
+      }))), _react.default.createElement("div", {
+        className: "new-user"
+      }, _react.default.createElement("div", {
+        className: "label"
+      }, "New to Cinestock? Please register to expolre our world of cinema."), _react.default.createElement("div", {
+        className: "value"
+      }, _react.default.createElement(_registrationView.RegistrationView, {
+        onLoggedIn: function onLoggedIn(user) {
+          return _this3.onLoggedIn(user);
+        }
+      })))); // Before the movies have been loaded
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
@@ -29412,7 +29526,7 @@ MainView.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../../node_modules/react/index.js","axios":"../../node_modules/axios/index.js","prop-types":"../../node_modules/prop-types/index.js","../login-view/login-view":"components/login-view/login-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx"}],"../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","axios":"../../node_modules/axios/index.js","prop-types":"../../node_modules/prop-types/index.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx"}],"../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -29540,7 +29654,7 @@ function (_React$Component) {
 var container = document.getElementsByClassName("app-container")[0]; // Tells React to render your app in the root DOM element
 
 _reactDom.default.render(_react.default.createElement(CineStockApp), container);
-},{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -29568,7 +29682,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61119" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56360" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -29743,5 +29857,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
+},{}]},{},["../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
 //# sourceMappingURL=/src.78399e21.js.map
