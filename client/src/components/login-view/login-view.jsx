@@ -12,17 +12,15 @@ export function LoginView(props) {
     console.log(username, password);
     axios
       .post("https://cinestock.herokuapp.com/login", {
-        username: username,
-        password: password
+        Username: username,
+        Password: password
       })
-      .then(response => {
-        props.onLoggedIn(user);
+      .then(() => {
+        props.onLoggedIn(username);
       })
       .catch(function(error) {
         console.log(error);
       });
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(user) */
   };
 
   return (
