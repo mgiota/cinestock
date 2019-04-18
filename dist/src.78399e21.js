@@ -29589,7 +29589,7 @@ function LoginView(props) {
   };
 
   return _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default.Group, {
-    controlId: "formUsername"
+    controlId: "loginUsername"
   }, _react.default.createElement(_Form.default.Label, null, "Username: "), _react.default.createElement(_Form.default.Control, {
     type: "text",
     value: username,
@@ -29598,7 +29598,7 @@ function LoginView(props) {
     },
     placeholder: "Enter username"
   })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formPassword"
+    controlId: "loginPassword"
   }, _react.default.createElement(_Form.default.Label, null, "Password: "), _react.default.createElement(_Form.default.Control, {
     type: "password",
     value: password,
@@ -30368,7 +30368,7 @@ function (_React$Component) {
 var container = document.getElementsByClassName("app-container")[0]; // Tells React to render your app in the root DOM element
 
 _reactDom.default.render(_react.default.createElement(CineStockApp), container);
-},{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -30396,7 +30396,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60836" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51532" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -30571,5 +30571,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
+},{}]},{},["../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
 //# sourceMappingURL=/src.78399e21.js.map
