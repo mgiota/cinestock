@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse";
 
 import { LoginView } from "../login-view/login-view";
 import { RegistrationView } from "../registration-view/registration-view";
@@ -11,6 +13,7 @@ export class MainView extends React.Component {
   constructor() {
     super();
     this.state = {
+      open: false,
       movies: null,
       selectedMovie: null
     };
@@ -49,24 +52,37 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const { movies, selectedMovie, user } = this.state;
+    const { movies, selectedMovie, user, open } = this.state;
 
     if (!user)
       return (
         <div className="login-page">
-          <div className="existing-user">
-            <div className="label">Please log into your account:</div>
+          <div className="container">
+            <div className="label">
+              Welcome back! Please log into your account:
+            </div>
             <div className="value">
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
             </div>
           </div>
-          <div className="new-user">
+          <div className="container">
             <div className="label">
-              New to Cinestock? Please register to expolre our world of cinema.
+              New to Cinestock? Please
+              <Button
+                onClick={() => this.setState({ open: !open })}
+                aria-controls="example-collapse-text"
+                aria-expanded={open}
+                variant="link"
+              >
+                register
+              </Button>
+              to explore our world of cinema.
             </div>
-            <div className="value">
-              <RegistrationView onLoggedIn={user => this.onLoggedIn(user)} />
-            </div>
+            <Collapse in={this.state.open}>
+              <div className="value">
+                <RegistrationView onLoggedIn={user => this.onLoggedIn(user)} />
+              </div>
+            </Collapse>
           </div>
         </div>
       );
