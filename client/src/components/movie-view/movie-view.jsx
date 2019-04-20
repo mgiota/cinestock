@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./movie-view.scss";
+import Button from "react-bootstrap/Button";
+import Figure from "react-bootstrap/Figure";
 
 export class MovieView extends React.Component {
   constructor() {
@@ -13,27 +16,42 @@ export class MovieView extends React.Component {
     if (!movie) return null;
 
     return (
-      <div className="movie-view">
-        <div className="movie-title">
-          <div className="label">Title</div>
-          <div className="value">{movie.Title} </div>
-        </div>
-        <div className="movie-description">
-          <div className="label">Description</div>
-          <div className="value">{movie.Description} </div>
-        </div>
-        <img className="movie-poster" src={movie.ImagePath} />
-        <div className="movie-genre">
-          <div className="label">Genre</div>
-          <div className="value">{movie.Genre.Name}</div>
-        </div>
-        <div className="movie-director">
-          <div className="label">Director</div>
-          <div className="value">{movie.Director.Name}</div>
-        </div>
-        <button onClick={() => onClick()} className="back-button">
+      <div className="container">
+        <Figure>
+          <Figure.Image
+            width={300}
+            height={180}
+            alt="300x180"
+            src={movie.ImagePath}
+          />
+          <Figure.Caption>
+            <div className="movie-view">
+              <div className="movie-title">
+                <div className="label">Title</div>
+                <div className="value">{movie.Title} </div>
+              </div>
+              <div className="movie-description">
+                <div className="label">Description</div>
+                <div className="value">{movie.Description} </div>
+              </div>
+              <div className="movie-genre">
+                <div className="label">Genre</div>
+                <div className="value">{movie.Genre.Name}</div>
+              </div>
+              <div className="movie-director">
+                <div className="label">Director</div>
+                <div className="value">{movie.Director.Name}</div>
+              </div>
+            </div>
+          </Figure.Caption>
+        </Figure>
+        <Button
+          onClick={() => onClick()}
+          className="back-button"
+          variant="primary"
+        >
           Go back
-        </button>
+        </Button>
       </div>
     );
   }
