@@ -12,7 +12,8 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     console.log(username, password, email, birthday);
     axios
       .post("https://cinestock.herokuapp.com/users", {
