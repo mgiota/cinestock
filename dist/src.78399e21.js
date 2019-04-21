@@ -31300,7 +31300,12 @@ var _default = (0, _createWithBsPrefix.default)('card-deck');
 
 exports.default = _default;
 module.exports = exports["default"];
-},{"@babel/runtime/helpers/interopRequireDefault":"../../node_modules/@babel/runtime/helpers/interopRequireDefault.js","./utils/createWithBsPrefix":"../../node_modules/react-bootstrap/utils/createWithBsPrefix.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
+},{"@babel/runtime/helpers/interopRequireDefault":"../../node_modules/@babel/runtime/helpers/interopRequireDefault.js","./utils/createWithBsPrefix":"../../node_modules/react-bootstrap/utils/createWithBsPrefix.js"}],"components/movie-card/movie-card.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../../../home/veronikahar/.nvm/versions/node/v11.10.1/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31317,6 +31322,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
 var _CardDeck = _interopRequireDefault(require("react-bootstrap/CardDeck"));
+
+require("./movie-card.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31381,7 +31388,7 @@ MovieCard.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/Card.js","react-bootstrap/CardDeck":"../../node_modules/react-bootstrap/CardDeck.js"}],"components/movie-view/movie-view.scss":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/Card.js","react-bootstrap/CardDeck":"../../node_modules/react-bootstrap/CardDeck.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movie-view/movie-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -31622,25 +31629,25 @@ function (_React$Component) {
       }, _react.default.createElement("div", {
         className: "movie-title"
       }, _react.default.createElement("div", {
-        className: "label"
+        className: "label h5"
       }, "Title"), _react.default.createElement("div", {
         className: "value"
       }, movie.Title, " ")), _react.default.createElement("div", {
         className: "movie-description"
       }, _react.default.createElement("div", {
-        className: "label"
+        className: "label h5"
       }, "Description"), _react.default.createElement("div", {
         className: "value"
       }, movie.Description, " ")), _react.default.createElement("div", {
         className: "movie-genre"
       }, _react.default.createElement("div", {
-        className: "label"
+        className: "label h5"
       }, "Genre"), _react.default.createElement("div", {
         className: "value"
       }, movie.Genre.Name)), _react.default.createElement("div", {
         className: "movie-director"
       }, _react.default.createElement("div", {
-        className: "label"
+        className: "label h5"
       }, "Director"), _react.default.createElement("div", {
         className: "value"
       }, movie.Director.Name))))), _react.default.createElement(_Button.default, {
@@ -31929,7 +31936,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50134" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52418" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
