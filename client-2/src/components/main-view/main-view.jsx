@@ -46,6 +46,15 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
+  onLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    this.setState({
+      user: null
+    });
+  }
+
   getMovies(token) {
     axios
       .get("https://cinestock.herokuapp.com/movies", {
@@ -109,6 +118,13 @@ export class MainView extends React.Component {
 
     return (
       <div className="main-view">
+        <Button
+          onClick={() => this.onLogout()}
+          className="logout-btn"
+          variant="primary"
+        >
+          Log out
+        </Button>
         {selectedMovie ? (
           <MovieView
             movie={selectedMovie}
