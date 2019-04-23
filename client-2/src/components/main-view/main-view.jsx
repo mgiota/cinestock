@@ -15,44 +15,9 @@ export class MainView extends React.Component {
     this.state = {
       open: false,
       movies: null,
-      selectedMovie: null
-    };
-  }
-
-  componentDidMount() {
-    let accessToken = localStorage.getItem("token");
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem("user")
-      });
-      this.getMovies(accessToken);
-    }
-  }
-
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    });
-  }
-
-  onLoggedIn(authData) {
-    console.log(authData);
-    this.setState({
-      user: authData.user.Username
-    });
-
-    localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
-    this.getMovies(authData.token);
-  }
-
-  onLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    this.setState({
+      selectedMovie: null,
       user: null
-    });
+    };
   }
 
   getMovies(token) {
@@ -71,14 +36,63 @@ export class MainView extends React.Component {
       });
   }
 
-  handleBackBtnClick() {
+  componentDidMount() {
+    window.addEventListener("hashchange", this.handleNewHash, false);
+
+    this.handleNewHash();
+  }
+
+  handleNewHash = () => {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem("user")
+      });
+      this.getMovies(accessToken);
+    }
+
+    const movieId = window.location.hash.replace(/^#\/?|\/$/g, "").split("/");
+
     this.setState({
-      selectedMovie: null
+      selectedMovieId: movieId[0]
+    });
+  };
+
+  onMovieClick(movie) {
+    window.location.hash = "#" + movie._id;
+    this.setState({
+      selectedMovieId: movie._id
+    });
+  }
+
+  onLoggedIn = authData => {
+    this.setState({
+      user: authData.user.Username
+    });
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
+  };
+
+  onLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.hash = "login";
+
+    this.setState({
+      user: null
+    });
+  }
+
+  handleBackBtnClick() {
+    window.location.hash = "movies";
+    this.setState({
+      selectedMovieId: null
     });
   }
 
   render() {
-    const { movies, selectedMovie, user, open } = this.state;
+    const { movies, selectedMovieId, user, open } = this.state;
 
     if (!user)
       return (
@@ -114,7 +128,10 @@ export class MainView extends React.Component {
       );
 
     // Before the movies have been loaded
-    if (!movies) return <div className="main-view" />;
+    if (!movies || !movies.length) return <div className="main-view" />;
+    const selectedMovie = selectedMovieId
+      ? movies.find(m => m._id === selectedMovieId)
+      : null;
 
     return (
       <div className="main-view">
