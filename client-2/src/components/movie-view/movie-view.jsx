@@ -16,7 +16,7 @@ export class MovieView extends React.Component {
     if (!movie) return null;
 
     return (
-      <div className="container">
+      <div className="movie">
         <Figure>
           <Figure.Image
             width={300}
