@@ -5,9 +5,11 @@ import Card from "react-bootstrap/Card";
 import CardDeck from "react-bootstrap/CardDeck";
 import "./movie-card.scss";
 
+import { Link } from "react-router-dom";
+
 export class MovieCard extends React.Component {
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     return (
       <CardDeck>
@@ -16,9 +18,9 @@ export class MovieCard extends React.Component {
           <Card.Body>
             <Card.Title>{movie.Title}</Card.Title>
             <Card.Text>{movie.Description}</Card.Text>
-            <Button onClick={() => onClick(movie)} variant="link">
-              Read more...
-            </Button>
+            <Link to={`/movies/${movie._id}`}>
+              <Button variant="link">Read more...</Button>
+            </Link>
           </Card.Body>
         </Card>
       </CardDeck>

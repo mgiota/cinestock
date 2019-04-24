@@ -4,6 +4,8 @@ import "./movie-view.scss";
 import Button from "react-bootstrap/Button";
 import Figure from "react-bootstrap/Figure";
 
+import { Link } from "react-router-dom";
+
 export class MovieView extends React.Component {
   constructor() {
     super();
@@ -11,7 +13,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     if (!movie) return null;
 
@@ -36,22 +38,30 @@ export class MovieView extends React.Component {
               </div>
               <div className="movie-genre">
                 <div className="label h5">Genre</div>
-                <div className="value">{movie.Genre.Name}</div>
+                <div className="value">{movie.Genre.Name} *</div>
+                <Link to={`/genres/${movie.Genre.Name}`}>
+                  <Button variant="link" className="details">
+                    * What is {movie.Genre.Name}?
+                  </Button>
+                </Link>
               </div>
               <div className="movie-director">
                 <div className="label h5">Director</div>
-                <div className="value">{movie.Director.Name}</div>
+                <div className="value">{movie.Director.Name} **</div>
+                <Link to={`/directors/${movie.Director.Name}`}>
+                  <Button variant="link" className="details">
+                    ** Click for {movie.Director.Name}'s brief biography
+                  </Button>
+                </Link>
               </div>
             </div>
           </Figure.Caption>
         </Figure>
-        <Button
-          onClick={() => onClick()}
-          className="back-button"
-          variant="primary"
-        >
-          Go back
-        </Button>
+        <Link to={`/`}>
+          <Button className="back-button" variant="primary">
+            Go back
+          </Button>
+        </Link>
       </div>
     );
   }

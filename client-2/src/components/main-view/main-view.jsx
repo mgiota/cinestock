@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import { LoginView } from "../login-view/login-view";
 import { RegistrationView } from "../registration-view/registration-view";
 import { MovieCard } from "../movie-card/movie-card";
@@ -15,7 +17,6 @@ export class MainView extends React.Component {
     this.state = {
       open: false,
       movies: null,
-      selectedMovie: null,
       user: null
     };
   }
@@ -37,12 +38,6 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener("hashchange", this.handleNewHash, false);
-
-    this.handleNewHash();
-  }
-
-  handleNewHash = () => {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
       this.setState({
@@ -50,19 +45,6 @@ export class MainView extends React.Component {
       });
       this.getMovies(accessToken);
     }
-
-    const movieId = window.location.hash.replace(/^#\/?|\/$/g, "").split("/");
-
-    this.setState({
-      selectedMovieId: movieId[0]
-    });
-  };
-
-  onMovieClick(movie) {
-    window.location.hash = "#" + movie._id;
-    this.setState({
-      selectedMovieId: movie._id
-    });
   }
 
   onLoggedIn = authData => {
@@ -77,22 +59,14 @@ export class MainView extends React.Component {
   onLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.hash = "login";
 
     this.setState({
       user: null
     });
   }
 
-  handleBackBtnClick() {
-    window.location.hash = "movies";
-    this.setState({
-      selectedMovieId: null
-    });
-  }
-
   render() {
-    const { movies, selectedMovieId, user, open } = this.state;
+    const { movies, user, open } = this.state;
 
     if (!user)
       return (
@@ -129,34 +103,32 @@ export class MainView extends React.Component {
 
     // Before the movies have been loaded
     if (!movies || !movies.length) return <div className="main-view" />;
-    const selectedMovie = selectedMovieId
-      ? movies.find(m => m._id === selectedMovieId)
-      : null;
 
     return (
-      <div className="main-view">
-        <Button
-          onClick={() => this.onLogout()}
-          className="logout-btn"
-          variant="primary"
-        >
-          Log out
-        </Button>
-        {selectedMovie ? (
-          <MovieView
-            movie={selectedMovie}
-            onClick={() => this.handleBackBtnClick()}
+      <Router>
+        <div className="main-view">
+          <Button
+            onClick={() => this.onLogout()}
+            className="logout-btn"
+            variant="primary"
+          >
+            Log out
+          </Button>
+          <Route
+            exact
+            path="/"
+            render={() => movies.map(m => <MovieCard key={m._id} movie={m} />)}
           />
-        ) : (
-          movies.map(movie => (
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              onClick={movie => this.onMovieClick(movie)}
-            />
-          ))
-        )}
-      </div>
+          <Route
+            path="/movies/:movieId"
+            render={({ match }) => (
+              <MovieView
+                movie={movies.find(m => m._id === match.params.movieId)}
+              />
+            )}
+          />
+        </div>
+      </Router>
     );
   }
 }
