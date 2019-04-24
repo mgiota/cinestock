@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./login-view.scss";
@@ -13,7 +12,6 @@ export function LoginView(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(username, password);
     axios
       .post("https://cinestock.herokuapp.com/login", {
         Username: username,
@@ -49,15 +47,8 @@ export function LoginView(props) {
         />
       </Form.Group>
       <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
+        Log in
       </Button>
     </Form>
   );
 }
-
-LoginView.propTypes = {
-  movie: PropTypes.shape({
-    title: PropTypes.string
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-};
