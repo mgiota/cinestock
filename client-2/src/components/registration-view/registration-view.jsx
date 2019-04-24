@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
@@ -12,9 +11,8 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const handleSubmit = e => {
+  const handleRegister = e => {
     e.preventDefault();
-    console.log(username, password, email, birthday);
     axios
       .post("https://cinestock.herokuapp.com/users", {
         Username: username,
@@ -23,10 +21,19 @@ export function RegistrationView(props) {
         Birthday: birthday
       })
       .then(() => {
-        props.onLoggedIn(username);
+        axios
+          .post("https://cinestock.herokuapp.com/login", {
+            Username: username,
+            Password: password
+          })
+          .then(response => {
+            console.log(response);
+            const data = response.data;
+            props.onLoggedIn(data);
+          });
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch(e => {
+        console.log("Error registering the user.");
       });
   };
 
@@ -68,8 +75,8 @@ export function RegistrationView(props) {
           placeholder="Please provide your birthday in format mm/dd/yyyy"
         />
       </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
+      <Button variant="primary" type="submit" onClick={handleRegister}>
+        Register
       </Button>
       <Form.Text className="text-muted">
         We will never share your personal information with anyone else.
@@ -77,10 +84,3 @@ export function RegistrationView(props) {
     </Form>
   );
 }
-
-RegistrationView.propTypes = {
-  movie: PropTypes.shape({
-    title: PropTypes.string
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-};
