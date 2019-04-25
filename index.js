@@ -214,9 +214,7 @@ app.get("/users/:Username",
 
 
 //Allows to update user info
-app.put(
-  "/users/:Username",
-  passport.authenticate("jwt", {
+app.put("/users/:Username", passport.authenticate("jwt", {
     session: false
   }),
   function (req, res) {
