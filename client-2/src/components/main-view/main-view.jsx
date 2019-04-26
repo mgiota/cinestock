@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 import Collapse from "react-bootstrap/Collapse";
 import "./main-view.scss";
 
@@ -12,6 +14,8 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { DirectorView } from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
+import { ProfileView } from "../profile-view/profile-view";
+import { ProfileUpdate } from "../profile-view/profile-view";
 
 export class MainView extends React.Component {
   constructor() {
@@ -19,7 +23,9 @@ export class MainView extends React.Component {
     this.state = {
       open: false,
       movies: [],
-      user: null
+      user: null,
+      email: null,
+      birthday: null
     };
   }
 
@@ -39,13 +45,33 @@ export class MainView extends React.Component {
       });
   }
 
+  getUser(user, token) {
+    axios
+      .get("https://cinestock.herokuapp.com/users/" + user, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        // Assign the result to the state
+        this.setState({
+          email: response.data.Email,
+          birthday: response.data.Birthday,
+          token: token
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
+      let user = localStorage.getItem("user");
       this.setState({
         user: localStorage.getItem("user")
       });
       this.getMovies(accessToken);
+      this.getUser(user, accessToken);
     }
   }
 
@@ -68,7 +94,7 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const { movies, user, open } = this.state;
+    const { movies, user, open, email, birthday, token } = this.state;
 
     if (!user)
       return (
@@ -109,16 +135,36 @@ export class MainView extends React.Component {
     return (
       <Router>
         <div className="main-view">
-          <Button
-            onClick={() => this.onLogout()}
-            className="logout-btn"
-            variant="primary"
-          >
-            Log out
-          </Button>
+          <Navbar sticky="top" variant="dark">
+            <Button
+              onClick={() => this.onLogout()}
+              className="logout-btn"
+              variant="primary"
+            >
+              Log out
+            </Button>
+            <Nav justify variant="tabs">
+              <Nav.Item>
+                <Nav.Link eventKey="disabled" disabled>
+                  Hello, {user}!
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="/userprofile">Your account</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="/movies">Movies</Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Navbar>
           <Route
             exact
             path="/"
+            render={() => movies.map(m => <MovieCard key={m._id} movie={m} />)}
+          />
+          <Route
+            exact
+            path="/movies"
             render={() => movies.map(m => <MovieCard key={m._id} movie={m} />)}
           />
           <Route
@@ -129,6 +175,18 @@ export class MainView extends React.Component {
                 movie={movies.find(m => m._id === match.params.movieId)}
               />
             )}
+          />
+          <Route
+            exact
+            path="/userprofile"
+            render={() => (
+              <ProfileView user={user} email={email} birthday={birthday} />
+            )}
+          />
+          <Route
+            exact
+            path="/userprofile/update"
+            render={() => <ProfileUpdate user={user} token={token} />}
           />
           <Route
             path="/directors/:name"

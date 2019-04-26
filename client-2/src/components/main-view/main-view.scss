@@ -10,3 +10,36 @@ body {
     line-height: 1.6;
     margin: auto;
 }
+
+.nav-link.disabled {
+    font-weight: 600;
+}
+
+.navbar {
+    background-color: #172742;
+    margin: 0%;
+    font-size: 16px;
+}
+
+.navbar-nav {
+    width: 55%;
+    margin-left: auto;
+    margin-right: 0%;
+    margin-bottom: 2%;
+    border-bottom-color: #BD2099;
+}
+
+.nav-link {
+    margin: 0%;
+    border-radius: 0%;
+}
+
+a.nav-link:focus,
+a.nav-link:hover {
+    color: #BD2099;
+}
+
+.nav-link:active {
+    background-color: #BD2099;
+    color: #fff;
+}
