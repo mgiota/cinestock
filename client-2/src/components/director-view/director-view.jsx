@@ -15,7 +15,7 @@ export function DirectorView(props) {
           {props.director.Name} ({props.director.Birth} - {death})
         </div>
         <div className="value">{props.director.Bio}</div>
-        <Link to={`/`}>
+        <Link to={`/movies`}>
           <Button className="back-button" variant="primary">
             Back to movie list
           </Button>
