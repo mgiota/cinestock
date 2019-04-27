@@ -16,6 +16,7 @@ import { DirectorView } from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { ProfileUpdate } from "../profile-view/profile-view";
+import { ProfileDelete } from "../profile-view/profile-view";
 
 export class MainView extends React.Component {
   constructor() {
@@ -75,6 +76,10 @@ export class MainView extends React.Component {
     }
   }
 
+  onUpdate(user) {
+    localStorage.setItem("user", user);
+  }
+
   onLoggedIn = authData => {
     this.setState({
       user: authData.user.Username
@@ -95,6 +100,19 @@ export class MainView extends React.Component {
 
   render() {
     const { movies, user, open, email, birthday, token } = this.state;
+
+    if (!user && token)
+      return (
+        <Router>
+          <Route
+            exact
+            path="/userprofile"
+            render={() => (
+              <ProfileDelete onLogout={user => this.onLogout(user)} />
+            )}
+          />
+        </Router>
+      );
 
     if (!user)
       return (
@@ -180,13 +198,25 @@ export class MainView extends React.Component {
             exact
             path="/userprofile"
             render={() => (
-              <ProfileView user={user} email={email} birthday={birthday} />
+              <ProfileView
+                user={user}
+                email={email}
+                birthday={birthday}
+                token={token}
+                onLogout={user => this.onLogout(user)}
+              />
             )}
           />
           <Route
             exact
             path="/userprofile/update"
-            render={() => <ProfileUpdate user={user} token={token} />}
+            render={() => (
+              <ProfileUpdate
+                user={user}
+                token={token}
+                onUpdate={user => this.onUpdate(user)}
+              />
+            )}
           />
           <Route
             path="/directors/:name"

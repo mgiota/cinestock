@@ -11,11 +11,30 @@ import { Link } from "react-router-dom";
 export function ProfileView(props) {
   const username = props.user,
     email = props.email,
-    birthday = props.birthday;
+    birthday = props.birthday,
+    token = props.token;
+
+  const handleDelete = e => {
+    e.preventDefault();
+    axios
+      .delete("https://cinestock.herokuapp.com/users/" + username, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        props.onLogout(username);
+      })
+      .catch(e => {
+        console.log("Error deleting the user profile.");
+      });
+  };
 
   return (
     <div className="user-profile">
-      <Button className="deregister-btn" variant="primary">
+      <Button
+        className="deregister-btn"
+        variant="primary"
+        onClick={handleDelete}
+      >
         Delete profile
       </Button>
       <div className="container">
@@ -23,7 +42,7 @@ export function ProfileView(props) {
         <div className="value">Username: {username}</div>
         <div className="value">Password: ********</div>
         <div className="value">Email: {email}</div>
-        <div className="value">Birthday: {birthday.substr(0, 10)}</div>
+        <div className="value">Birthday: {birthday}</div>
         <Link to={`/userprofile/update`}>
           <Button className="update-btn" variant="link">
             Update user info...
@@ -42,8 +61,8 @@ export function ProfileUpdate(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-  const user = props.user;
-  const token = props.token;
+  var user = props.user,
+    token = props.token;
 
   const handleUpdate = e => {
     e.preventDefault();
@@ -51,21 +70,23 @@ export function ProfileUpdate(props) {
       .put(
         "https://cinestock.herokuapp.com/users/" + user,
         {
-          headers: { Authorization: `Bearer ${token}` }
-        },
-        {
           Username: username,
           Password: password,
           Email: email,
           Birthday: birthday
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
         }
       )
       .then(response => {
-        const data = response.data;
-        props.onLoggedIn(data);
+        if (response.statusText === "OK") {
+          props.onUpdate(username);
+          window.open("/userprofile", "_self");
+        }
       })
       .catch(e => {
-        console.log("Error updating the user info.");
+        console.log("Error updating the user info.", e);
       });
   };
 
@@ -116,6 +137,26 @@ export function ProfileUpdate(props) {
           We will never share your personal information with anyone else.
         </Form.Text>
       </Form>
+    </div>
+  );
+}
+
+export function ProfileDelete() {
+  return (
+    <div className="user-profile">
+      <div className="container">
+        <div className="label h5">
+          Your profile has been successfully deleted from CineStock.
+        </div>
+        <div className="value">
+          We are sorry to see you go but if you change your mind, you are always
+          welcome to create a new account.
+        </div>
+        <div className="value">Have a great day!</div>
+        <Button variant="primary" onClick={e => window.open("/", "_self")}>
+          Ok
+        </Button>
+      </div>
     </div>
   );
 }
