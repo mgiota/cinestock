@@ -12,6 +12,7 @@ export function ProfileView(props) {
   const username = props.user,
     email = props.email,
     birthday = props.birthday,
+    favoriteMovies = props.favoriteMovies,
     token = props.token;
 
   const handleDelete = e => {
@@ -51,6 +52,12 @@ export function ProfileView(props) {
       </div>
       <div className="container">
         <div className="label h5">Favorite movies</div>
+        <div className="value">{favoriteMovies}</div>
+        <Link to={`/movies`}>
+          <Button className="update-btn" variant="link">
+            Add movies...
+          </Button>
+        </Link>
       </div>
     </div>
   );
@@ -153,7 +160,11 @@ export function ProfileDelete() {
           welcome to create a new account.
         </div>
         <div className="value">Have a great day!</div>
-        <Button variant="primary" onClick={e => window.open("/", "_self")}>
+        <Button
+          variant="primary"
+          className="ok-btn"
+          onClick={e => window.open("/", "_self")}
+        >
           Ok
         </Button>
       </div>

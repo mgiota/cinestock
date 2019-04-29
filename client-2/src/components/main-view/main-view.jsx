@@ -26,7 +26,8 @@ export class MainView extends React.Component {
       movies: [],
       user: null,
       email: null,
-      birthday: null
+      birthday: null,
+      favoriteMovies: []
     };
   }
 
@@ -56,6 +57,7 @@ export class MainView extends React.Component {
         this.setState({
           email: response.data.Email,
           birthday: response.data.Birthday,
+          favoriteMovies: response.data.FavoriteMovies,
           token: token
         });
       })
@@ -99,7 +101,15 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const { movies, user, open, email, birthday, token } = this.state;
+    const {
+      movies,
+      user,
+      open,
+      email,
+      birthday,
+      token,
+      favoriteMovies
+    } = this.state;
 
     if (!user && token)
       return (
@@ -183,7 +193,17 @@ export class MainView extends React.Component {
           <Route
             exact
             path="/movies"
-            render={() => movies.map(m => <MovieCard key={m._id} movie={m} />)}
+            render={() =>
+              movies.map(m => (
+                <MovieCard
+                  key={m._id}
+                  movie={m}
+                  user={user}
+                  token={token}
+                  favoriteMovies={favoriteMovies}
+                />
+              ))
+            }
           />
           <Route
             exact
@@ -202,6 +222,7 @@ export class MainView extends React.Component {
                 user={user}
                 email={email}
                 birthday={birthday}
+                favoriteMovies={favoriteMovies}
                 token={token}
                 onLogout={user => this.onLogout(user)}
               />
