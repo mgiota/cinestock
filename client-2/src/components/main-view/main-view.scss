@@ -11,6 +11,12 @@ body {
     margin: auto;
 }
 
+button.logout-btn.btn.btn-primary:active {
+    background-color: #0A8A87;
+    border-color: #0A8A87;
+    color: #fff;
+}
+
 .nav-link.disabled {
     font-weight: 600;
 }
