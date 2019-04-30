@@ -11,7 +11,7 @@ body {
     margin: auto;
 }
 
-button.logout-btn.btn.btn-primary:active {
+.btn-primary:not(:disabled):not(.disabled):active {
     background-color: #0A8A87;
     border-color: #0A8A87;
     color: #fff;
