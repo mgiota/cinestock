@@ -20,6 +20,7 @@ export function LoginView(props) {
       .then(response => {
         const data = response.data;
         props.onLoggedIn(data);
+        window.open("/movies", "_self");
       })
       .catch(e => {
         console.log(e);

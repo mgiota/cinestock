@@ -30,6 +30,7 @@ export function RegistrationView(props) {
             console.log(response);
             const data = response.data;
             props.onLoggedIn(data);
+            window.open("/movies", "_self");
           });
       })
       .catch(e => {
