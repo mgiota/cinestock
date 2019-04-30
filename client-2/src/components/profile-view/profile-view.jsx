@@ -21,8 +21,9 @@ export function ProfileView(props) {
       .delete("https://cinestock.herokuapp.com/users/" + username, {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(response => {
-        props.onLogout(username);
+      .then(() => {
+        console.log(token);
+        window.open("/userprofile/delete", "_self");
       })
       .catch(e => {
         console.log("Error deleting the user profile.");
@@ -148,7 +149,9 @@ export function ProfileUpdate(props) {
   );
 }
 
-export function ProfileDelete() {
+export function ProfileDelete(props) {
+  const user = props.user;
+
   return (
     <div className="user-profile">
       <div className="container">
@@ -163,7 +166,7 @@ export function ProfileDelete() {
         <Button
           variant="primary"
           className="ok-btn"
-          onClick={e => window.open("/", "_self")}
+          onClick={e => window.open("/", "_self") && props.onDelete(user)}
         >
           Ok
         </Button>

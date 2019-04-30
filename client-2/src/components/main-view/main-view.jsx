@@ -7,6 +7,7 @@ import Collapse from "react-bootstrap/Collapse";
 import "./main-view.scss";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { LoginView } from "../login-view/login-view";
 import { RegistrationView } from "../registration-view/registration-view";
@@ -96,7 +97,23 @@ export class MainView extends React.Component {
     localStorage.removeItem("user");
 
     this.setState({
-      user: null
+      user: null,
+      email: null,
+      birthday: null,
+      favoriteMovies: [],
+      token: null
+    });
+  }
+
+  onDelete() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    this.setState({
+      user: null,
+      email: null,
+      favoriteMovies: [],
+      token: null
     });
   }
 
@@ -110,19 +127,6 @@ export class MainView extends React.Component {
       token,
       favoriteMovies
     } = this.state;
-
-    if (!user && token)
-      return (
-        <Router>
-          <Route
-            exact
-            path="/userprofile"
-            render={() => (
-              <ProfileDelete onLogout={user => this.onLogout(user)} />
-            )}
-          />
-        </Router>
-      );
 
     if (!user)
       return (
@@ -157,6 +161,22 @@ export class MainView extends React.Component {
         </div>
       );
 
+    if (user && movies.length < 1)
+      return (
+        <Router>
+          <Route
+            exact
+            path="/userprofile/delete"
+            render={() => (
+              <ProfileDelete
+                user={user}
+                onDelete={user => this.onDelete(user)}
+              />
+            )}
+          />
+        </Router>
+      );
+
     // Before the movies have been loaded
     if (!movies || !movies.length) return <div className="main-view" />;
 
@@ -164,13 +184,15 @@ export class MainView extends React.Component {
       <Router>
         <div className="main-view">
           <Navbar sticky="top" variant="dark">
-            <Button
-              onClick={() => this.onLogout()}
-              className="logout-btn"
-              variant="primary"
-            >
-              Log out
-            </Button>
+            <Link to={`/`}>
+              <Button
+                onClick={() => this.onLogout()}
+                className="logout-btn"
+                variant="primary"
+              >
+                Log out
+              </Button>
+            </Link>
             <Nav justify variant="tabs">
               <Nav.Item>
                 <Nav.Link eventKey="disabled" disabled>
@@ -188,7 +210,17 @@ export class MainView extends React.Component {
           <Route
             exact
             path="/"
-            render={() => movies.map(m => <MovieCard key={m._id} movie={m} />)}
+            render={() =>
+              movies.map(m => (
+                <MovieCard
+                  key={m._id}
+                  movie={m}
+                  user={user}
+                  token={token}
+                  favoriteMovies={favoriteMovies}
+                />
+              ))
+            }
           />
           <Route
             exact
@@ -224,7 +256,6 @@ export class MainView extends React.Component {
                 birthday={birthday}
                 favoriteMovies={favoriteMovies}
                 token={token}
-                onLogout={user => this.onLogout(user)}
               />
             )}
           />
