@@ -11,9 +11,20 @@ import { Link } from "react-router-dom";
 export function ProfileView(props) {
   const username = props.user,
     email = props.email,
-    birthday = props.birthday,
+    birthday = props.birthday.substr(0, 10),
     favoriteMovies = props.favoriteMovies,
+    movies = props.movies,
     token = props.token;
+
+  var movieTitle = [];
+  for (var i = 0; i < favoriteMovies.length; i++) {
+    var movie = movies.find(m => m._id === favoriteMovies[i]);
+    movieTitle.push(
+      <div className="value" id={movie._id}>
+        {movie.Title}
+      </div>
+    );
+  }
 
   const handleDelete = e => {
     e.preventDefault();
@@ -53,10 +64,10 @@ export function ProfileView(props) {
       </div>
       <div className="container">
         <div className="label h5">Favorite movies</div>
-        <div className="value">{favoriteMovies}</div>
+        {movieTitle}
         <Link to={`/movies`}>
           <Button className="update-btn" variant="link">
-            Add movies...
+            Add/remove movies...
           </Button>
         </Link>
       </div>
@@ -65,12 +76,14 @@ export function ProfileView(props) {
 }
 
 export function ProfileUpdate(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
   var user = props.user,
+    oldEmail = props.email,
+    oldBirth = props.birthday,
     token = props.token;
+  const [username, setUsername] = useState(user);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(oldEmail);
+  const [birthday, setBirthday] = useState(oldBirth);
 
   const handleUpdate = e => {
     e.preventDefault();
@@ -101,27 +114,37 @@ export function ProfileUpdate(props) {
   return (
     <div className="user-profile">
       <Form>
-        Please update your profile information.
+        <p>
+          Please update your profile information.
+          <br />
+          Asterisk (*) marks required fields.
+        </p>
         <Form.Group controlId="formUsername">
-          <Form.Label>Username: </Form.Label>
+          <Form.Label>Username*: </Form.Label>
           <Form.Control
             type="text"
             value={username}
             onChange={e => setUsername(e.target.value)}
             placeholder="Pick a username"
           />
+          <Form.Text className="text-muted">
+            Username can only contain alphanumeric characters (A-Za-z, 0-9).
+          </Form.Text>
         </Form.Group>
         <Form.Group controlId="formPassword">
-          <Form.Label>Password: </Form.Label>
+          <Form.Label>Password*: </Form.Label>
           <Form.Control
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="Pick a password"
+            placeholder="Pick a new password or resubmit your old one"
           />
+          <Form.Text className="text-muted">
+            Password should be at least 8 characters long.
+          </Form.Text>
         </Form.Group>
         <Form.Group controlId="formEmail">
-          <Form.Label>Email: </Form.Label>
+          <Form.Label>Email*: </Form.Label>
           <Form.Control
             type="email"
             value={email}
@@ -142,7 +165,7 @@ export function ProfileUpdate(props) {
           Update
         </Button>
         <Form.Text className="text-muted">
-          We will never share your personal information with anyone else.
+          We will never share your personal information with anyone.
         </Form.Text>
       </Form>
     </div>
