@@ -132,10 +132,12 @@ export class MainView extends React.Component {
       return (
         <div className="login-page">
           <div className="container">
-            <div className="label">
-              Welcome back! Please log into your account:
+            <div className="label h5">
+              <br />
+              Welcome to CineStock!
             </div>
             <div className="value">
+              <p> Please log into your account:</p>
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
             </div>
           </div>
@@ -210,32 +212,36 @@ export class MainView extends React.Component {
           <Route
             exact
             path="/"
-            render={() =>
-              movies.map(m => (
-                <MovieCard
-                  key={m._id}
-                  movie={m}
-                  user={user}
-                  token={token}
-                  favoriteMovies={favoriteMovies}
-                />
-              ))
-            }
+            render={() => (
+              <div className="card-deck">
+                {movies.map(m => (
+                  <MovieCard
+                    key={m._id}
+                    movie={m}
+                    user={user}
+                    token={token}
+                    favoriteMovies={favoriteMovies}
+                  />
+                ))}
+              </div>
+            )}
           />
           <Route
             exact
             path="/movies"
-            render={() =>
-              movies.map(m => (
-                <MovieCard
-                  key={m._id}
-                  movie={m}
-                  user={user}
-                  token={token}
-                  favoriteMovies={favoriteMovies}
-                />
-              ))
-            }
+            render={() => (
+              <div className="card-deck">
+                {movies.map(m => (
+                  <MovieCard
+                    key={m._id}
+                    movie={m}
+                    user={user}
+                    token={token}
+                    favoriteMovies={favoriteMovies}
+                  />
+                ))}
+              </div>
+            )}
           />
           <Route
             exact
@@ -255,6 +261,7 @@ export class MainView extends React.Component {
                 email={email}
                 birthday={birthday}
                 favoriteMovies={favoriteMovies}
+                movies={movies}
                 token={token}
               />
             )}
@@ -266,6 +273,8 @@ export class MainView extends React.Component {
               <ProfileUpdate
                 user={user}
                 token={token}
+                email={email}
+                birthday={birthday}
                 onUpdate={user => this.onUpdate(user)}
               />
             )}

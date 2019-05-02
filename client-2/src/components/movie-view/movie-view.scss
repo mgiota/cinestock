@@ -7,18 +7,8 @@
     line-height: 1.6;
 }
 
-.label {
-    color: #000;
-}
-
-.value {
-    color: #000;
-}
-
 .back-button {
     margin: 3%;
-    margin-left: 5%;
-    margin-top: 0%;
 }
 
 button.back-button.btn.btn-primary:active {
@@ -34,9 +24,27 @@ button.back-button.btn.btn-primary:active {
 
 }
 
+figcaption {
+    margin: 0%;
+}
+
+figure {
+    justify-content: center;
+}
+
+.figure-img {
+    margin: auto;
+    margin-bottom: 3%;
+}
+
 .movie {
     background-color: #fff;
-    padding: 3%;
-    margin: 0%;
+    padding: 7%;
+    margin: auto;
     margin-top: 4%;
+    max-width: 800px;
+}
+
+.value {
+    color: #000;
 }

@@ -4,28 +4,28 @@
 }
 
 .card-body {
-    font-family: 'Nanum Gothic', sans-serif;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 1.6;
     padding: 1%;
 }
 
+.card-deck {
+    justify-content: center;
+}
+
 .card {
-    margin: 1%;
-    padding: 2%;
-    align-self: center;
+    min-width: 350px;
+    max-width: 400px;
+    padding: 1%;
     border-radius: 0%;
 }
 
-.card-deck {
-    margin-top: 0%;
+.card-title {
+    margin-right: 15%;
 }
 
 .flexbox {
     position: absolute;
-    margin-right: 0%;
-    margin-left: 85%;
+    margin-left: 80%;
+    margin-top: 0%;
 }
 
 
@@ -35,7 +35,7 @@
     }
 
     50% {
-        font-size: 28px;
+        font-size: 30px;
     }
 
     100% {
@@ -53,6 +53,12 @@
     }
 
     &:hover {
-        animation: favme-hover .3s;
+        animation: favme-hover .4s;
     }
+}
+
+.card-img-top {
+    margin: 0%;
+    padding: 5%;
+    padding-bottom: 0%
 }

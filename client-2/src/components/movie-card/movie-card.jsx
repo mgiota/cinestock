@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import CardDeck from "react-bootstrap/CardDeck";
 import "./movie-card.scss";
 
 // Axios is a package to send client requests; it hooks frontend code up with API
@@ -43,6 +42,7 @@ export class MovieCard extends React.Component {
             user +
             "/favorites/" +
             movieId,
+          {},
           {
             headers: { Authorization: `Bearer ${token}` }
           }
@@ -77,9 +77,13 @@ export class MovieCard extends React.Component {
     const { movie } = this.props;
 
     return (
-      <CardDeck>
-        <Card style={{ width: "16rem" }}>
-          <Card.Img variant="top" src={movie.ImagePath} />
+      <Card>
+        <Card.Img
+          variant="top"
+          src={process.env.PUBLIC_URL + "/images/" + movie.ImagePath}
+        />
+
+        <Card.Body>
           <div className="flexbox">
             <div className="fav-btn">
               <span
@@ -90,15 +94,13 @@ export class MovieCard extends React.Component {
               </span>
             </div>
           </div>
-          <Card.Body>
-            <Card.Title>{movie.Title}</Card.Title>
-            <Card.Text>{movie.Description}</Card.Text>
-            <Link to={`/movies/${movie._id}`}>
-              <Button variant="link">Read more...</Button>
-            </Link>
-          </Card.Body>
-        </Card>
-      </CardDeck>
+          <Card.Title>{movie.Title}</Card.Title>
+          <Card.Text>{movie.Description}</Card.Text>
+          <Link to={`/movies/${movie._id}`}>
+            <Button variant="link">Read more...</Button>
+          </Link>
+        </Card.Body>
+      </Card>
     );
   }
 }

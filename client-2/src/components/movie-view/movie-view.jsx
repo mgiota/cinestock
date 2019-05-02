@@ -21,10 +21,7 @@ export class MovieView extends React.Component {
       <div className="movie">
         <Figure>
           <Figure.Image
-            width={300}
-            height={180}
-            alt="300x180"
-            src={movie.ImagePath}
+            src={process.env.PUBLIC_URL + "/images/" + movie.ImagePath}
           />
           <Figure.Caption>
             <div className="movie-view">

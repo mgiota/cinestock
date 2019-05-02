@@ -40,26 +40,33 @@ export function RegistrationView(props) {
 
   return (
     <Form>
+      <p>Asterisk (*) marks required fields.</p>
       <Form.Group controlId="formUsername">
-        <Form.Label>Username: </Form.Label>
+        <Form.Label>Username*: </Form.Label>
         <Form.Control
           type="text"
           value={username}
           onChange={e => setUsername(e.target.value)}
           placeholder="Pick a username"
         />
+        <Form.Text className="text-muted">
+          Username can only contain alphanumeric characters (A-Za-z, 0-9).
+        </Form.Text>
       </Form.Group>
       <Form.Group controlId="formPassword">
-        <Form.Label>Password: </Form.Label>
+        <Form.Label>Password*: </Form.Label>
         <Form.Control
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           placeholder="Pick a password"
         />
+        <Form.Text className="text-muted">
+          Password should be at least 8 characters long.
+        </Form.Text>
       </Form.Group>
       <Form.Group controlId="formEmail">
-        <Form.Label>Email: </Form.Label>
+        <Form.Label>Email*: </Form.Label>
         <Form.Control
           type="email"
           value={email}
@@ -80,7 +87,7 @@ export function RegistrationView(props) {
         Register
       </Button>
       <Form.Text className="text-muted">
-        We will never share your personal information with anyone else.
+        We will never share your personal information with anyone.
       </Form.Text>
     </Form>
   );

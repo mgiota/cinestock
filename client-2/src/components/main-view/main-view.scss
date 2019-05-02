@@ -8,6 +8,11 @@ body {
     font-weight: 300;
     font-size: 18px;
     line-height: 1.6;
+}
+
+.main-view {
+    width: 85%;
+    justify-content: center;
     margin: auto;
 }
 
@@ -24,11 +29,11 @@ body {
 .navbar {
     background-color: #172742;
     margin: 0%;
-    font-size: 16px;
 }
 
 .navbar-nav {
-    width: 55%;
+    white-space: nowrap;
+    width: 45%;
     margin-left: auto;
     margin-right: 0%;
     margin-bottom: 2%;
@@ -38,6 +43,7 @@ body {
 .nav-link {
     margin: 0%;
     border-radius: 0%;
+    font-size: 16px;
 }
 
 a.nav-link:focus,
@@ -48,4 +54,9 @@ a.nav-link:hover {
 .nav-link:active {
     background-color: #BD2099;
     color: #fff;
+}
+
+.logout-btn {
+    white-space: nowrap;
+    font-size: 16px;
 }
