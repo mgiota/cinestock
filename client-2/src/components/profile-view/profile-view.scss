@@ -1,7 +1,7 @@
 .deregister-btn {
     position: absolute;
-    margin-left: 60%;
-    margin-right: 8%;
+    margin-left: 40%;
+    margin-top: 1%;
 }
 
 button.deregister-btn.btn.btn-primary:active {
@@ -18,7 +18,8 @@ button.ok-btn.btn.btn-primary:active {
 
 .user-profile {
     background-color: #fff;
-    padding: 3%;
-    margin: 0%;
+    padding: 7%;
+    margin: auto;
     margin-top: 4%;
+    max-width: 900px;
 }
