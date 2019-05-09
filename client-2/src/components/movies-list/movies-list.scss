@@ -1,0 +1,20 @@
+.filter-group {
+    width: 100%;
+    margin: auto;
+    margin-left: 25%;
+
+}
+
+.filter {
+    margin: 0%;
+    display: inline-block;
+    width: 50%;
+    border-radius: 0px;
+    font-size: 16px;
+    border-color: #172742;
+    padding-left: 2%;
+}
+
+select.form-control {
+    width: 25%;
+}
