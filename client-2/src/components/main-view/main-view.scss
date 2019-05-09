@@ -28,7 +28,12 @@ body {
 
 .navbar {
     background-color: #172742;
-    margin: 0%;
+    margin: auto;
+    margin-left: -2%;
+    padding: 0%;
+    width: 104%;
+    height: 58px;
+    justify-content: center;
 }
 
 .navbar-nav {
