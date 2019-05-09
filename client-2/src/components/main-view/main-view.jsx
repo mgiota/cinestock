@@ -1,35 +1,48 @@
 import React from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import { setMovies } from "../../actions/actions";
+import { LoginView } from "../login-view/login-view";
+import { RegistrationView } from "../registration-view/registration-view";
+import MoviesList from "../movies-list/movies-list";
+import MovieView from "../movie-view/movie-view";
+import DirectorView from "../director-view/director-view";
+//import { GenreView } from "../genre-view/genre-view";
+import ProfileView from "../profile-view/profile-view";
+import { ProfileUpdate } from "../profile-view/profile-view";
+import { ProfileDelete } from "../profile-view/profile-view";
+
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Collapse from "react-bootstrap/Collapse";
 import "./main-view.scss";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Link } from "react-router-dom";
-
-import { LoginView } from "../login-view/login-view";
-import { RegistrationView } from "../registration-view/registration-view";
-import { MovieCard } from "../movie-card/movie-card";
-import { MovieView } from "../movie-view/movie-view";
-import { DirectorView } from "../director-view/director-view";
-import { GenreView } from "../genre-view/genre-view";
-import { ProfileView } from "../profile-view/profile-view";
-import { ProfileUpdate } from "../profile-view/profile-view";
-import { ProfileDelete } from "../profile-view/profile-view";
-
 export class MainView extends React.Component {
   constructor() {
     super();
     this.state = {
       open: false,
-      movies: [],
       user: null,
       email: null,
       birthday: null,
       favoriteMovies: []
     };
+  }
+
+  componentDidMount() {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      let user = localStorage.getItem("user");
+      this.setState({
+        user: user
+      });
+      this.getMovies(accessToken);
+      this.getUser(user, accessToken);
+    }
   }
 
   getMovies(token) {
@@ -38,10 +51,10 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data
-        });
+        this.props.setMovies(response.data);
+        // this.setState({
+        //   movies: response.data
+        // });
       })
       .catch(error => {
         console.log(error);
@@ -54,7 +67,6 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        // Assign the result to the state
         this.setState({
           email: response.data.Email,
           birthday: response.data.Birthday,
@@ -65,18 +77,6 @@ export class MainView extends React.Component {
       .catch(error => {
         console.log(error);
       });
-  }
-
-  componentDidMount() {
-    let accessToken = localStorage.getItem("token");
-    if (accessToken !== null) {
-      let user = localStorage.getItem("user");
-      this.setState({
-        user: localStorage.getItem("user")
-      });
-      this.getMovies(accessToken);
-      this.getUser(user, accessToken);
-    }
   }
 
   onUpdate(user) {
@@ -118,15 +118,7 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const {
-      movies,
-      user,
-      open,
-      email,
-      birthday,
-      token,
-      favoriteMovies
-    } = this.state;
+    const { user, open, email, birthday, token, favoriteMovies } = this.state;
 
     if (!user)
       return (
@@ -163,7 +155,7 @@ export class MainView extends React.Component {
         </div>
       );
 
-    if (user && movies.length < 1)
+    if (user && !token)
       return (
         <Router>
           <Route
@@ -178,9 +170,6 @@ export class MainView extends React.Component {
           />
         </Router>
       );
-
-    // Before the movies have been loaded
-    if (!movies || !movies.length) return <div className="main-view" />;
 
     return (
       <Router>
@@ -213,44 +202,28 @@ export class MainView extends React.Component {
             exact
             path="/"
             render={() => (
-              <div className="card-deck">
-                {movies.map(m => (
-                  <MovieCard
-                    key={m._id}
-                    movie={m}
-                    user={user}
-                    token={token}
-                    favoriteMovies={favoriteMovies}
-                  />
-                ))}
-              </div>
+              <MoviesList
+                user={user}
+                token={token}
+                favoriteMovies={favoriteMovies}
+              />
             )}
           />
           <Route
             exact
             path="/movies"
             render={() => (
-              <div className="card-deck">
-                {movies.map(m => (
-                  <MovieCard
-                    key={m._id}
-                    movie={m}
-                    user={user}
-                    token={token}
-                    favoriteMovies={favoriteMovies}
-                  />
-                ))}
-              </div>
+              <MoviesList
+                user={user}
+                token={token}
+                favoriteMovies={favoriteMovies}
+              />
             )}
           />
           <Route
             exact
             path="/movies/:movieId"
-            render={({ match }) => (
-              <MovieView
-                movie={movies.find(m => m._id === match.params.movieId)}
-              />
-            )}
+            render={({ match }) => <MovieView movieId={match.params.movieId} />}
           />
           <Route
             exact
@@ -261,7 +234,6 @@ export class MainView extends React.Component {
                 email={email}
                 birthday={birthday}
                 favoriteMovies={favoriteMovies}
-                movies={movies}
                 token={token}
               />
             )}
@@ -281,20 +253,11 @@ export class MainView extends React.Component {
           />
           <Route
             path="/directors/:name"
-            render={({ match }) => {
-              if (!movies || !movies.length)
-                return <div className="main-view" />;
-              return (
-                <DirectorView
-                  director={
-                    movies.find(m => m.Director.Name === match.params.name)
-                      .Director
-                  }
-                />
-              );
-            }}
+            render={({ match }) => (
+              <DirectorView directorName={match.params.name} />
+            )}
           />
-          <Route
+          {/* <Route
             path="/genres/:name"
             render={({ match }) => {
               if (!movies || !movies.length)
@@ -307,9 +270,14 @@ export class MainView extends React.Component {
                 />
               );
             }}
-          />
+          /> */}
         </div>
       </Router>
     );
   }
 }
+
+export default connect(
+  null,
+  { setMovies }
+)(MainView);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./profile-view.scss";
@@ -8,22 +9,29 @@ import axios from "axios";
 
 import { Link } from "react-router-dom";
 
-export function ProfileView(props) {
+function ProfileView(props) {
   const username = props.user,
     email = props.email,
-    birthday = props.birthday.substr(0, 10),
+    birthday = props.birthday,
     favoriteMovies = props.favoriteMovies,
     movies = props.movies,
     token = props.token;
 
-  var movieTitle = [];
-  for (var i = 0; i < favoriteMovies.length; i++) {
-    var movie = movies.find(m => m._id === favoriteMovies[i]);
-    movieTitle.push(
-      <div className="value" id={movie._id}>
-        {movie.Title}
-      </div>
-    );
+  let movieTitle = [];
+  for (let i = 0; i < favoriteMovies.length; i++) {
+    let movie = movies.find(m => m._id === favoriteMovies[i]);
+
+    if (movie) {
+      movieTitle.push(
+        <div id={movie._id}>
+          <Link to={`/movies/${movie._id}`}>
+            <Button variant="link" className="movie-link">
+              {movie.Title}
+            </Button>
+          </Link>
+        </div>
+      );
+    }
   }
 
   const handleDelete = e => {
@@ -33,7 +41,6 @@ export function ProfileView(props) {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(() => {
-        console.log(token);
         window.open("/userprofile/delete", "_self");
       })
       .catch(e => {
@@ -55,7 +62,9 @@ export function ProfileView(props) {
         <div className="value">Username: {username}</div>
         <div className="value">Password: ********</div>
         <div className="value">Email: {email}</div>
-        <div className="value">Birthday: {birthday}</div>
+        <div className="value">
+          Birthday: {birthday ? birthday.substr(0, 10) : birthday}
+        </div>
         <Link to={`/userprofile/update`}>
           <Button className="update-btn" variant="link">
             Update user info...
@@ -76,10 +85,11 @@ export function ProfileView(props) {
 }
 
 export function ProfileUpdate(props) {
-  var user = props.user,
+  let user = props.user,
     oldEmail = props.email,
     oldBirth = props.birthday,
     token = props.token;
+
   const [username, setUsername] = useState(user);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(oldEmail);
@@ -197,3 +207,5 @@ export function ProfileDelete(props) {
     </div>
   );
 }
+
+export default connect(({ movies }) => ({ movies }))(ProfileView);
