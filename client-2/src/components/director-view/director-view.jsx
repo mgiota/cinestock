@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import "./director-view.scss";
 
@@ -31,10 +31,9 @@ function DirectorView(props) {
   );
 }
 
-// DirectorView.propTypes = {
-//   director: PropTypes.shape({
-//     name: PropTypes.string
-//   }).isRequired
-// };
+DirectorView.propTypes = {
+  directorName: PropTypes.string.isRequired,
+  movies: PropTypes.array.isRequired
+};
 
 export default connect(({ movies }) => ({ movies }))(DirectorView);
