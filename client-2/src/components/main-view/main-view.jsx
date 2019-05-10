@@ -4,16 +4,17 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import { setMovies } from "../../actions/actions";
+import { setMovies, setUser } from "../../actions/actions";
 import { LoginView } from "../login-view/login-view";
 import { RegistrationView } from "../registration-view/registration-view";
 import MoviesList from "../movies-list/movies-list";
 import MovieView from "../movie-view/movie-view";
 import DirectorView from "../director-view/director-view";
-//import { GenreView } from "../genre-view/genre-view";
-import ProfileView from "../profile-view/profile-view";
-import { ProfileUpdate } from "../profile-view/profile-view";
-import { ProfileDelete } from "../profile-view/profile-view";
+import GenreView from "../genre-view/genre-view";
+import ProfileUpdate, {
+  ConnectedProfileView,
+  ProfileDelete
+} from "../profile-view/profile-view";
 
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
@@ -26,10 +27,8 @@ export class MainView extends React.Component {
     super();
     this.state = {
       open: false,
-      user: null,
-      email: null,
-      birthday: null,
-      favoriteMovies: []
+      token: null,
+      user: null
     };
   }
 
@@ -52,9 +51,6 @@ export class MainView extends React.Component {
       })
       .then(response => {
         this.props.setMovies(response.data);
-        // this.setState({
-        //   movies: response.data
-        // });
       })
       .catch(error => {
         console.log(error);
@@ -67,10 +63,8 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
+        this.props.setUser(response.data);
         this.setState({
-          email: response.data.Email,
-          birthday: response.data.Birthday,
-          favoriteMovies: response.data.FavoriteMovies,
           token: token
         });
       })
@@ -98,9 +92,6 @@ export class MainView extends React.Component {
 
     this.setState({
       user: null,
-      email: null,
-      birthday: null,
-      favoriteMovies: [],
       token: null
     });
   }
@@ -110,15 +101,12 @@ export class MainView extends React.Component {
     localStorage.removeItem("user");
 
     this.setState({
-      user: null,
-      email: null,
-      favoriteMovies: [],
       token: null
     });
   }
 
   render() {
-    const { user, open, email, birthday, token, favoriteMovies } = this.state;
+    const { user, open, token } = this.state;
 
     if (!user)
       return (
@@ -155,21 +143,7 @@ export class MainView extends React.Component {
         </div>
       );
 
-    if (user && !token)
-      return (
-        <Router>
-          <Route
-            exact
-            path="/userprofile/delete"
-            render={() => (
-              <ProfileDelete
-                user={user}
-                onDelete={user => this.onDelete(user)}
-              />
-            )}
-          />
-        </Router>
-      );
+    if (user && !token) return <Router />;
 
     return (
       <Router>
@@ -198,27 +172,11 @@ export class MainView extends React.Component {
               </Nav.Item>
             </Nav>
           </Navbar>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <MoviesList
-                user={user}
-                token={token}
-                favoriteMovies={favoriteMovies}
-              />
-            )}
-          />
+          <Route exact path="/" render={() => <MoviesList token={token} />} />
           <Route
             exact
             path="/movies"
-            render={() => (
-              <MoviesList
-                user={user}
-                token={token}
-                favoriteMovies={favoriteMovies}
-              />
-            )}
+            render={() => <MoviesList token={token} />}
           />
           <Route
             exact
@@ -228,26 +186,25 @@ export class MainView extends React.Component {
           <Route
             exact
             path="/userprofile"
-            render={() => (
-              <ProfileView
-                user={user}
-                email={email}
-                birthday={birthday}
-                favoriteMovies={favoriteMovies}
-                token={token}
-              />
-            )}
+            render={() => <ConnectedProfileView token={token} />}
           />
           <Route
             exact
             path="/userprofile/update"
             render={() => (
               <ProfileUpdate
-                user={user}
                 token={token}
-                email={email}
-                birthday={birthday}
                 onUpdate={user => this.onUpdate(user)}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/userprofile/delete"
+            render={() => (
+              <ProfileDelete
+                user={user}
+                onDelete={user => this.onDelete(user)}
               />
             )}
           />
@@ -257,20 +214,10 @@ export class MainView extends React.Component {
               <DirectorView directorName={match.params.name} />
             )}
           />
-          {/* <Route
+          <Route
             path="/genres/:name"
-            render={({ match }) => {
-              if (!movies || !movies.length)
-                return <div className="main-view" />;
-              return (
-                <GenreView
-                  genre={
-                    movies.find(m => m.Genre.Name === match.params.name).Genre
-                  }
-                />
-              );
-            }}
-          /> */}
+            render={({ match }) => <GenreView genreName={match.params.name} />}
+          />
         </div>
       </Router>
     );
@@ -279,5 +226,5 @@ export class MainView extends React.Component {
 
 export default connect(
   null,
-  { setMovies }
+  { setMovies, setUser }
 )(MainView);

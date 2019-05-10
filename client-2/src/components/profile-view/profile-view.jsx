@@ -9,18 +9,22 @@ import axios from "axios";
 
 import { Link } from "react-router-dom";
 
+const mapStateToProps = state => {
+  const { movies, userInfo } = state;
+  return { movies: movies, userInfo: userInfo };
+};
+
 function ProfileView(props) {
-  const username = props.user,
-    email = props.email,
-    birthday = props.birthday,
-    favoriteMovies = props.favoriteMovies,
+  const username = props.userInfo.Username,
+    email = props.userInfo.Email,
+    birthday = props.userInfo.Birthday,
+    favoriteMovies = props.userInfo.FavoriteMovies,
     movies = props.movies,
     token = props.token;
 
   let movieTitle = [];
   for (let i = 0; i < favoriteMovies.length; i++) {
     let movie = movies.find(m => m._id === favoriteMovies[i]);
-
     if (movie) {
       movieTitle.push(
         <div id={movie._id}>
@@ -84,10 +88,10 @@ function ProfileView(props) {
   );
 }
 
-export function ProfileUpdate(props) {
-  let user = props.user,
-    oldEmail = props.email,
-    oldBirth = props.birthday,
+function ProfileUpdate(props) {
+  let user = props.userInfo.Username,
+    oldEmail = props.userInfo.Email,
+    oldBirth = props.userInfo.Birthday,
     token = props.token;
 
   const [username, setUsername] = useState(user);
@@ -189,7 +193,8 @@ export function ProfileDelete(props) {
     <div className="user-profile">
       <div className="container">
         <div className="label h5">
-          Your profile has been successfully deleted from CineStock.
+          Dear {user}! Your profile has been successfully deleted from
+          CineStock.
         </div>
         <div className="value">
           We are sorry to see you go but if you change your mind, you are always
@@ -208,4 +213,5 @@ export function ProfileDelete(props) {
   );
 }
 
-export default connect(({ movies }) => ({ movies }))(ProfileView);
+export const ConnectedProfileView = connect(mapStateToProps)(ProfileView);
+export default connect(mapStateToProps)(ProfileUpdate);
