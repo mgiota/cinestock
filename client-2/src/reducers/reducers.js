@@ -4,7 +4,8 @@ import {
   SET_FILTER,
   SET_SORT_COLUMN,
   SET_MOVIES,
-  SET_USER
+  SET_USER,
+  SET_MODAL
 } from "../actions/actions";
 
 function visibilityFilter(state = "", action) {
@@ -43,11 +44,21 @@ function userInfo(state = {}, action) {
   }
 }
 
+function showModal(state = false, action) {
+  switch (action.type) {
+    case SET_MODAL:
+      return action.value;
+    default:
+      return state;
+  }
+}
+
 const moviesApp = combineReducers({
   visibilityFilter,
   sortColumn,
   movies,
-  userInfo
+  userInfo,
+  showModal
 });
 
 export default moviesApp;

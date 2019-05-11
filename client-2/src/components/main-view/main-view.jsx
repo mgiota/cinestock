@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { setMovies, setUser } from "../../actions/actions";
-import { LoginView } from "../login-view/login-view";
-import { RegistrationView } from "../registration-view/registration-view";
+import LoginView from "../login-view/login-view";
+import RegistrationView from "../registration-view/registration-view";
 import MoviesList from "../movies-list/movies-list";
 import MovieView from "../movie-view/movie-view";
 import DirectorView from "../director-view/director-view";

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { setShowModal } from "../../actions/actions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import "./login-view.scss";
 
 // Axios is a package to send client requests; it hooks frontend code up with API
 import axios from "axios";
 
-export function LoginView(props) {
+function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  let showModal = props.showModal;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -23,8 +27,13 @@ export function LoginView(props) {
         window.open("/movies", "_self");
       })
       .catch(e => {
+        props.setShowModal(true);
         console.log(e);
       });
+  };
+
+  const handleClose = () => {
+    props.setShowModal(false);
   };
 
   return (
@@ -50,6 +59,30 @@ export function LoginView(props) {
       <Button variant="primary" type="submit" onClick={handleSubmit}>
         Log in
       </Button>
+      <Modal
+        className="login-error"
+        show={showModal}
+        onHide={handleClose}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Error logging in!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Incorrect username or password. Please try again.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Form>
   );
 }
+
+export default connect(
+  ({ showModal }) => ({ showModal }),
+  { setShowModal }
+)(LoginView);

@@ -1,15 +1,21 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { setShowModal } from "../../actions/actions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 
 // Axios is a package to send client requests; it hooks frontend code up with API
 import axios from "axios";
 
-export function RegistrationView(props) {
+function RegistrationView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+  let show = props.showModal;
+  var modalBody =
+    "Registration error. Please try again with a different username.";
 
   const handleRegister = e => {
     e.preventDefault();
@@ -27,15 +33,29 @@ export function RegistrationView(props) {
             Password: password
           })
           .then(response => {
-            console.log(response);
             const data = response.data;
             props.onLoggedIn(data);
             window.open("/movies", "_self");
           });
       })
       .catch(e => {
-        console.log("Error registering the user.");
+        props.setShowModal(true);
+        let check = e.toString().includes("400");
+
+        if (check) {
+          modalBody =
+            "The user with such username already exists." +
+            <br /> +
+            "Please pick a different username that only contains letters and or numbers.";
+        } else {
+          modalBody = "Please fill out all the required fields and try again.";
+        }
+        console.log(e, "Error registering the user.");
       });
+  };
+
+  const handleClose = () => {
+    props.setShowModal(false);
   };
 
   return (
@@ -86,9 +106,30 @@ export function RegistrationView(props) {
       <Button variant="primary" type="submit" onClick={handleRegister}>
         Register
       </Button>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Error registering!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalBody}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Form.Text className="text-muted">
         We will never share your personal information with anyone.
       </Form.Text>
     </Form>
   );
 }
+
+export default connect(
+  ({ showModal }) => ({ showModal }),
+  { setShowModal }
+)(RegistrationView);
