@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { setShowModal } from "../../actions/actions";
+import { setShowModal, setTrigger } from "../../actions/actions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -12,7 +12,11 @@ import axios from "axios";
 function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  let showModal = props.showModal;
+  let show = null;
+
+  if (props.trigger === "on") {
+    show = props.showModal;
+  }
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -27,6 +31,7 @@ function LoginView(props) {
         window.open("/movies", "_self");
       })
       .catch(e => {
+        props.setTrigger("on");
         props.setShowModal(true);
         console.log(e);
       });
@@ -61,7 +66,7 @@ function LoginView(props) {
       </Button>
       <Modal
         className="login-error"
-        show={showModal}
+        show={show}
         onHide={handleClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -83,6 +88,6 @@ function LoginView(props) {
 }
 
 export default connect(
-  ({ showModal }) => ({ showModal }),
-  { setShowModal }
+  ({ showModal, trigger }) => ({ showModal, trigger }),
+  { setShowModal, setTrigger }
 )(LoginView);

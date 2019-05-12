@@ -5,7 +5,8 @@ import {
   SET_SORT_COLUMN,
   SET_MOVIES,
   SET_USER,
-  SET_MODAL
+  SET_MODAL,
+  SET_TRIGGER
 } from "../actions/actions";
 
 function visibilityFilter(state = "", action) {
@@ -53,12 +54,22 @@ function showModal(state = false, action) {
   }
 }
 
+function trigger(state = "off", action) {
+  switch (action.type) {
+    case SET_TRIGGER:
+      return action.value;
+    default:
+      return state;
+  }
+}
+
 const moviesApp = combineReducers({
   visibilityFilter,
   sortColumn,
   movies,
   userInfo,
-  showModal
+  showModal,
+  trigger
 });
 
 export default moviesApp;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { setShowModal } from "../../actions/actions";
+import { setShowModal, setTrigger } from "../../actions/actions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -13,9 +13,19 @@ function RegistrationView(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-  let show = props.showModal;
-  var modalBody =
-    "Registration error. Please try again with a different username.";
+  let show = null,
+    modalBody =
+      "Registration error. Please try again with a different username.";
+
+  if (props.trigger === "400") {
+    show = props.showModal;
+    modalBody =
+      "The user with such username already exists. Please pick a different username that only contains letters and/or numbers.";
+  }
+  if (props.trigger === "422") {
+    show = props.showModal;
+    modalBody = "Please fill out all the required fields and try again.";
+  }
 
   const handleRegister = e => {
     e.preventDefault();
@@ -41,14 +51,10 @@ function RegistrationView(props) {
       .catch(e => {
         props.setShowModal(true);
         let check = e.toString().includes("400");
-
         if (check) {
-          modalBody =
-            "The user with such username already exists." +
-            <br /> +
-            "Please pick a different username that only contains letters and or numbers.";
+          props.setTrigger("400");
         } else {
-          modalBody = "Please fill out all the required fields and try again.";
+          props.setTrigger("422");
         }
         console.log(e, "Error registering the user.");
       });
@@ -130,6 +136,6 @@ function RegistrationView(props) {
 }
 
 export default connect(
-  ({ showModal }) => ({ showModal }),
-  { setShowModal }
+  ({ showModal, trigger }) => ({ showModal, trigger }),
+  { setShowModal, setTrigger }
 )(RegistrationView);
