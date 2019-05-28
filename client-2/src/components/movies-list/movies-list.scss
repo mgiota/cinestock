@@ -1,8 +1,9 @@
 .filter-group {
-    width: 100%;
+    width: 110%;
+    justify-content: center;
     margin: auto;
-    margin-left: 25%;
-
+    margin-top: 3%;
+    padding-left: 15%;
 }
 
 .filter {
@@ -11,10 +12,43 @@
     width: 50%;
     border-radius: 0px;
     font-size: 16px;
-    border-color: #172742;
+    border-color: #BD2099;
+    color: #BD2099;
+    background-color: #172742;
     padding-left: 2%;
 }
 
 select.form-control {
     width: 25%;
+    font-weight: 600;
+    padding-left: 8%;
+}
+
+select.form-control:hover,
+select.form-control:focus {
+    width: 25%;
+    border-color: #BD2099;
+    background-color: #172742;
+    color: #BD2099;
+}
+
+input.form-control:focus {
+    border-color: #BD2099;
+    box-shadow: none;
+}
+
+option {
+    background-color: #172742;
+    color: #BD2099;
+}
+
+@media all and (max-width: 576px) {
+    .filter-group {
+        width: 130%;
+        padding-left: 2%;
+    }
+
+    select.form-control {
+        padding-left: 3%;
+    }
 }

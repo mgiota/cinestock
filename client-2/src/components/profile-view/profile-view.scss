@@ -1,19 +1,8 @@
-.deregister-btn {
+button.deregister-btn.btn.btn-primary {
     position: absolute;
-    margin-left: 40%;
-    margin-top: 1%;
-}
-
-button.deregister-btn.btn.btn-primary:active {
-    background-color: #0A8A87;
-    border-color: #0A8A87;
-    color: #fff;
-}
-
-button.ok-btn.btn.btn-primary:active {
-    background-color: #0A8A87;
-    border-color: #0A8A87;
-    color: #fff;
+    right: 25%;
+    margin-top: 0px;
+    margin-right: 0px;
 }
 
 .movie-link {
@@ -27,8 +16,14 @@ button.ok-btn.btn.btn-primary:active {
 
 .user-profile {
     background-color: #fff;
-    padding: 7%;
+    padding: 5%;
     margin: auto;
     margin-top: 4%;
     max-width: 900px;
+}
+
+@media all and (max-width: 576px) {
+    button.deregister-btn.btn.btn-primary {
+        right: 10%;
+    }
 }

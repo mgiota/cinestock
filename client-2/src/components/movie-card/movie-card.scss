@@ -1,21 +1,20 @@
-* {
-    box-sizing: border-box;
-    margin: 2%;
-}
-
-.card-body {
-    padding: 1%;
+.card {
+    min-width: 350px;
+    max-width: 400px;
+    padding: 2%;
+    border-radius: 0%;
+    margin: 3%;
 }
 
 .card-deck {
     justify-content: center;
+    margin: auto;
 }
 
-.card {
-    min-width: 350px;
-    max-width: 400px;
+.card-img-top {
+    margin: 0%;
     padding: 1%;
-    border-radius: 0%;
+    padding-bottom: 5%;
 }
 
 .card-title {
@@ -24,23 +23,8 @@
 
 .flexbox {
     position: absolute;
-    margin-left: 80%;
-    margin-top: 0%;
-}
-
-
-@keyframes favme-hover {
-    from {
-        font-size: 26px;
-    }
-
-    50% {
-        font-size: 30px;
-    }
-
-    100% {
-        font-size: 26px;
-    }
+    margin-left: 75%;
+    margin-top: -2%;
 }
 
 .favme {
@@ -57,8 +41,26 @@
     }
 }
 
-.card-img-top {
-    margin: 0%;
-    padding: 5%;
-    padding-bottom: 0%
+@keyframes favme-hover {
+    from {
+        font-size: 26px;
+    }
+
+    50% {
+        font-size: 30px;
+    }
+
+    100% {
+        font-size: 26px;
+    }
+}
+
+@media all and (max-width: 576px) {
+    .card {
+        margin: auto;
+    }
+
+    .card-deck {
+        margin-top: 5%;
+    }
 }
