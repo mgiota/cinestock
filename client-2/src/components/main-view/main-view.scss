@@ -16,10 +16,25 @@ body {
     margin: auto;
 }
 
-.btn-primary:not(:disabled):not(.disabled):active {
-    background-color: #0A8A87;
-    border-color: #0A8A87;
+.btn-primary {
+    border-color: #BD2099;
+    border-radius: 0px;
+    margin-bottom: 0%;
+    background-color: transparent;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #BD2099;
+    border-color: #BD2099;
     color: #fff;
+    transition-duration: 0.5s opacity;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: #fff;
+    border-color: #0A8A87;
+    color: #0A8A87;
 }
 
 .nav-link.disabled {
@@ -31,17 +46,27 @@ body {
     margin: auto;
     margin-left: -2%;
     padding: 0%;
-    width: 104%;
-    height: 58px;
-    justify-content: center;
+    width: 103%;
+    padding-right: 3%;
+    height: 65px;
+    justify-content: space-between;
+}
+
+.navbar-collapse {
+    background-color: #172742;
+    min-width: 104%;
+    margin: 0px;
+    height: 65px;
+    right: -3%;
+    position: relative;
+    padding: 1px;
 }
 
 .navbar-nav {
     white-space: nowrap;
-    width: 45%;
+    width: 65%;
     margin-left: auto;
     margin-right: 0%;
-    margin-bottom: 2%;
     border-bottom-color: #BD2099;
 }
 
@@ -51,11 +76,13 @@ body {
     font-size: 16px;
 }
 
-a.nav-link:focus,
-a.nav-link:hover {
-    color: #BD2099;
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+    border-color: #BD2099;
+    background-color: #172742;
 }
 
+.nav-tabs .nav-link:active,
 .nav-link:active {
     background-color: #BD2099;
     color: #fff;
@@ -64,4 +91,44 @@ a.nav-link:hover {
 .logout-btn {
     white-space: nowrap;
     font-size: 16px;
+    margin-left: 35%;
+    margin-top: 3%;
+}
+
+@media all and (max-width: 576px) {
+    * {
+        font-size: 16px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+
+    .navbar-collapse {
+        top: -8%;
+        height: auto;
+        right: 0%;
+    }
+
+    .navbar-toggler.collapsed,
+    .navbar-toggler.collapsed:focus {
+        border: 0.5px solid #BD2099;
+    }
+
+    .nav-link.disabled {
+        display: none;
+    }
+
+    .main-view {
+        width: 98%;
+        justify-content: center;
+        margin: auto;
+    }
+
+    #root {
+        padding: 2%;
+        width: 100%;
+        margin: 0px;
+        margin-top: 3%;
+    }
 }

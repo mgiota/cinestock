@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 import { setMovies, setUser } from "../../actions/actions";
 import LoginView from "../login-view/login-view";
@@ -148,8 +147,8 @@ export class MainView extends React.Component {
     return (
       <Router>
         <div className="main-view">
-          <Navbar sticky="top" variant="dark">
-            <Link to={`/`}>
+          <Navbar collapseOnSelect sticky="top" expand="sm" variant="dark">
+            <Navbar.Brand href="/">
               <Button
                 onClick={() => this.onLogout()}
                 className="logout-btn"
@@ -157,74 +156,74 @@ export class MainView extends React.Component {
               >
                 Log out
               </Button>
-            </Link>
-            <Nav justify variant="tabs">
-              <Nav.Item>
-                <Nav.Link eventKey="disabled" disabled>
-                  Hello, {user}!
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto" justify variant="tabs">
+                <Nav.Item>
+                  <Nav.Link eventKey="disabled" disabled>
+                    Hello, {user}!
                 </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="/userprofile">Your account</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="/movies">Movies</Nav.Link>
-              </Nav.Item>
-            </Nav>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/userprofile">Your account</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/movies">Movies</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Navbar.Collapse>
           </Navbar>
-          <Route exact path="/" render={() => <MoviesList token={token} />} />
-          <Route
-            exact
-            path="/movies"
-            render={() => <MoviesList token={token} />}
-          />
-          <Route
-            exact
-            path="/movies/:movieId"
-            render={({ match }) => <MovieView movieId={match.params.movieId} />}
-          />
-          <Route
-            exact
-            path="/userprofile"
-            render={() => <ConnectedProfileView token={token} />}
-          />
-          <Route
-            exact
-            path="/userprofile/update"
-            render={() => (
-              <ProfileUpdate
-                token={token}
-                onUpdate={user => this.onUpdate(user)}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/userprofile/delete"
-            render={() => (
-              <ProfileDelete
-                user={user}
-                onDelete={user => this.onDelete(user)}
-              />
-            )}
-          />
-          <Route
-            path="/directors/:name"
-            render={({ match }) => (
-              <DirectorView directorName={match.params.name} />
-            )}
-          />
-          <Route
-            path="/genres/:name"
-            render={({ match }) => <GenreView genreName={match.params.name} />}
-          />
+            <Route exact path="/" render={() => <MoviesList token={token} />} />
+            <Route
+              exact
+              path="/movies"
+              render={() => <MoviesList token={token} />}
+            />
+            <Route
+              exact
+              path="/movies/:movieId"
+              render={({ match }) => <MovieView movieId={match.params.movieId} />}
+            />
+            <Route
+              exact
+              path="/userprofile"
+              render={() => <ConnectedProfileView token={token} />}
+            />
+            <Route
+              exact
+              path="/userprofile/update"
+              render={() => (
+                <ProfileUpdate
+                  token={token}
+                  onUpdate={user => this.onUpdate(user)}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/userprofile/delete"
+              render={() => (
+                <ProfileDelete
+                  user={user}
+                  onDelete={user => this.onDelete(user)}
+                />
+              )}
+            />
+            <Route
+              path="/directors/:name"
+              render={({ match }) => (
+                <DirectorView directorName={match.params.name} />
+              )}
+            />
+            <Route
+              path="/genres/:name"
+              render={({ match }) => <GenreView genreName={match.params.name} />}
+            />
         </div>
       </Router>
-    );
-  }
-}
+        );
+      }
+    }
 
-export default connect(
-  null,
-  { setMovies, setUser }
-)(MainView);
+    export default connect(null, {setMovies, setUser})(MainView);
