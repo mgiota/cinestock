@@ -360,6 +360,10 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'client-2/build', 'index.html'));
 });
 
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'client-2/build', 'index.html'));
+});
+
 //access requested file from "public" folder
 app.use(express.static("public"));
 

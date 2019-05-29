@@ -169,7 +169,7 @@ export class MainView extends React.Component {
                   <Nav.Link href="/userprofile">Your account</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="/movies">Movies</Nav.Link>
+                  <Nav.Link href="/my-movies">Movies</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
@@ -177,12 +177,12 @@ export class MainView extends React.Component {
             <Route exact path="/" render={() => <MoviesList token={token} />} />
             <Route
               exact
-              path="/movies"
+              path="/my-movies"
               render={() => <MoviesList token={token} />}
             />
             <Route
               exact
-              path="/movies/:movieId"
+              path="/my-movies/:movieId"
               render={({ match }) => <MovieView movieId={match.params.movieId} />}
             />
             <Route
