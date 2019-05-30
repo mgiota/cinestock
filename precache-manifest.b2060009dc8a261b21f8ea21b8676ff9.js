@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e9c22ae3911cc2f4a65675fb9f1855fb",
+    "revision": "34fee76883c5331f5ea41616b4eb2dd0",
     "url": "/cinestock/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cinestock/static/css/2.22a7d4ef.chunk.css"
   },
   {
-    "revision": "0f7faee3c51897448b80",
+    "revision": "7dcafe20d1942ff2d309",
     "url": "/cinestock/static/css/main.1a92cd70.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cinestock/static/js/2.e9a83650.chunk.js"
   },
   {
-    "revision": "0f7faee3c51897448b80",
-    "url": "/cinestock/static/js/main.4dc6b8a6.chunk.js"
+    "revision": "7dcafe20d1942ff2d309",
+    "url": "/cinestock/static/js/main.bacdac24.chunk.js"
   },
   {
     "revision": "9ed1b90631ff7ec3e0fb",

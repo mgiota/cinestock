@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/cinestock/static/css/main.1a92cd70.chunk.css",
-    "main.js": "/cinestock/static/js/main.4dc6b8a6.chunk.js",
-    "main.js.map": "/cinestock/static/js/main.4dc6b8a6.chunk.js.map",
+    "main.js": "/cinestock/static/js/main.bacdac24.chunk.js",
+    "main.js.map": "/cinestock/static/js/main.bacdac24.chunk.js.map",
     "runtime~main.js": "/cinestock/static/js/runtime~main.5954901c.js",
     "runtime~main.js.map": "/cinestock/static/js/runtime~main.5954901c.js.map",
     "static/css/2.22a7d4ef.chunk.css": "/cinestock/static/css/2.22a7d4ef.chunk.css",
     "static/js/2.e9a83650.chunk.js": "/cinestock/static/js/2.e9a83650.chunk.js",
     "static/js/2.e9a83650.chunk.js.map": "/cinestock/static/js/2.e9a83650.chunk.js.map",
     "index.html": "/cinestock/index.html",
-    "precache-manifest.337c0b7266a2783a5e77e4602c552602.js": "/cinestock/precache-manifest.337c0b7266a2783a5e77e4602c552602.js",
+    "precache-manifest.b2060009dc8a261b21f8ea21b8676ff9.js": "/cinestock/precache-manifest.b2060009dc8a261b21f8ea21b8676ff9.js",
     "service-worker.js": "/cinestock/service-worker.js",
     "static/css/2.22a7d4ef.chunk.css.map": "/cinestock/static/css/2.22a7d4ef.chunk.css.map",
     "static/css/main.1a92cd70.chunk.css.map": "/cinestock/static/css/main.1a92cd70.chunk.css.map"
