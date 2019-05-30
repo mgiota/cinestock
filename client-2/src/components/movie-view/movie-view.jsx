@@ -50,7 +50,7 @@ function MovieView(props) {
           </div>
         </Figure.Caption>
       </Figure>
-      <Link to={`/my-movies`}>
+      <Link to={process.env.PUBLIC_URL + '/my-movies'}>
         <Button className="back-button" variant="primary">
           Back to movies
         </Button>

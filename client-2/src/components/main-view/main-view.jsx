@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 import { setMovies, setUser } from "../../actions/actions";
 import LoginView from "../login-view/login-view";
@@ -78,7 +78,8 @@ export class MainView extends React.Component {
 
   onLoggedIn = authData => {
     this.setState({
-      user: authData.user.Username
+      user: authData.user.Username,
+      token: authData.token
     });
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
@@ -106,7 +107,6 @@ export class MainView extends React.Component {
 
   render() {
     const { user, open, token } = this.state;
-
     if (!user)
       return (
         <div className="login-page">
@@ -141,14 +141,12 @@ export class MainView extends React.Component {
           </div>
         </div>
       );
-
     if (user && !token) return <Router />;
-
     return (
       <Router>
         <div className="main-view">
           <Navbar collapseOnSelect sticky="top" expand="sm" variant="dark">
-            <Navbar.Brand href="/">
+            <Navbar.Brand to="/cinestock">
               <Button
                 onClick={() => this.onLogout()}
                 className="logout-btn"
@@ -166,18 +164,19 @@ export class MainView extends React.Component {
                 </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="/userprofile">Your account</Nav.Link>
+                  <Nav.Link as={NavLink} to={process.env.PUBLIC_URL + '/userprofile'}>Your account</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="/my-movies">Movies</Nav.Link>
+                  <Nav.Link as={NavLink} to={process.env.PUBLIC_URL + '/my-movies'}>Movies</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-            <Route exact path="/" render={() => <MoviesList token={token} />} />
+            <Route exact path={process.env.PUBLIC_URL + '/'} render={() => <MoviesList token={token} />} />
+
             <Route
               exact
-              path="/my-movies"
+              path={process.env.PUBLIC_URL + '/my-movies'}
               render={() => <MoviesList token={token} />}
             />
             <Route
@@ -186,8 +185,7 @@ export class MainView extends React.Component {
               render={({ match }) => <MovieView movieId={match.params.movieId} />}
             />
             <Route
-              exact
-              path="/userprofile"
+              path={process.env.PUBLIC_URL + '/userprofile'}
               render={() => <ConnectedProfileView token={token} />}
             />
             <Route

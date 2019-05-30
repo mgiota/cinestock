@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 export class MovieCard extends React.Component {
   constructor(props) {
     super(props);
-    var favArray = this.props.favoriteMovies;
+    var favArray = this.props.favoriteMovies || [];
     const movieId = this.props.movie._id;
 
     if (favArray.indexOf(movieId) > -1) {

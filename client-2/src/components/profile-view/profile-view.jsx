@@ -18,7 +18,7 @@ function ProfileView(props) {
   const username = props.userInfo.Username,
     email = props.userInfo.Email,
     birthday = props.userInfo.Birthday,
-    favoriteMovies = props.userInfo.FavoriteMovies,
+    favoriteMovies = props.userInfo.FavoriteMovies || [],
     movies = props.movies,
     token = props.token;
 

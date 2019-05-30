@@ -28,7 +28,6 @@ function LoginView(props) {
       .then(response => {
         const data = response.data;
         props.onLoggedIn(data);
-        window.open("/my-movies", "_self");
       })
       .catch(e => {
         props.setTrigger("on");
